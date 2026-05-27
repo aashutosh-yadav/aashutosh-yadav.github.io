@@ -8,86 +8,71 @@
 <body>
 
   <h1>Ashutosh Yadav</h1>
-  <p>Backend Engineer &mdash; Pune, Maharashtra</p>
   <p>
-    +91 8149500126 &bull;
-    <a href="mailto:yadavashutoshh01@gmail.com">yadavashutoshh01@gmail.com</a> &bull;
+    <a href="mailto:yadavashutoshh01@gmail.com">Email</a> &bull;
     <a href="https://github.com/aashutosh-yadav">GitHub</a> &bull;
     <a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">LinkedIn</a>
   </p>
 
   <hr>
 
-  <h2>About</h2>
   <p>
-    I'm a final-year Computer Engineering student at SPPU, graduating in May 2026.
-    I build backend systems in Python &mdash; mostly with FastAPI and PostgreSQL &mdash; and
-    care about understanding how systems perform under load.
+    I'm a backend engineer based in Pune, finishing my Computer Engineering degree at SPPU in 2026.
+    I mostly write Python &mdash; building APIs, thinking about system design, and figuring out
+    why things get slow under load.
   </p>
   <p>
-    I've been doing deliberate backend practice through 2024&ndash;2025: building real
-    systems, load testing them, and learning from the results.
+    For the past year or so I've been doing deliberate practice: taking a system, pushing it until
+    it breaks, understanding why, and fixing it. I find that more useful than just reading about it.
   </p>
 
   <hr>
 
-  <h2>Projects</h2>
+  <h2>Things I've built</h2>
 
-  <h3>High-Performance URL Shortener</h3>
-  <p><em>Python, FastAPI, PostgreSQL, Redis &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a></em></p>
-  <ul>
-    <li>Built a read-heavy backend achieving ~1900 req/sec at ~50ms latency under 100 concurrent users.</li>
-    <li>Identified worker contention as the primary bottleneck via load testing with <em>hey</em>; improved throughput ~6&times; via multi-worker scaling.</li>
-    <li>Evaluated Redis cache-aside strategy and demonstrated it adds overhead when the database is not the bottleneck.</li>
-    <li>Analyzed system behavior up to 500 concurrent users, identifying saturation at ~2500 RPS.</li>
-  </ul>
+  <h3>URL Shortener</h3>
+  <p>
+    I built this to learn what "performance" actually means in practice. After a lot of load testing
+    I got it to ~1900 requests per second at around 50ms latency. The interesting part wasn't the
+    number &mdash; it was figuring out that worker contention was the bottleneck, not the database,
+    which meant the Redis cache I added was actually making things <em>slower</em>. That was a
+    useful lesson.
+    &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a>
+  </p>
 
-  <h3>Learnlense &mdash; Intelligent Video Summarization</h3>
-  <p><em>Python, FastAPI, LLaMA 3.3 70B, Whisper ASR, LiteLLM &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a></em></p>
-  <ul>
-    <li>End-to-end AI pipeline that transcribes YouTube videos and MP4 uploads via Faster-Whisper and generates summaries via LLaMA 3.3 70B (Groq API).</li>
-    <li>Ships 7 AI-driven features: abstractive summarization, sentiment analysis, concept mind maps, prerequisite detection, streaming Q&amp;A chatbot, Markdown export, and PDF generation.</li>
-    <li>LiteLLM handles provider-agnostic orchestration with automatic fallback (Groq &rarr; Gemini &rarr; Ollama) and real-time cost tracking.</li>
-    <li>Achieves 70% semantic accuracy in under 3 minutes on CPU-only hardware. Research paper submitted.</li>
-  </ul>
+  <h3>Learnlense</h3>
+  <p>
+    An AI tool that takes a YouTube video or an MP4 and turns it into something useful &mdash;
+    a summary, a mind map, a Q&amp;A chatbot, and a few other things. It transcribes audio with
+    Whisper and then passes that to LLaMA 3.3 70B. I also set up a fallback chain so if one
+    provider is down it automatically tries the next one. Wrote a research paper on it too.
+    &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a>
+  </p>
 
-  <h3>RESTful API Backend</h3>
-  <p><em>Python, FastAPI, PostgreSQL, SQLAlchemy, Alembic, JWT &mdash; <a href="https://github.com/aashutosh-yadav/fastapi">GitHub</a></em></p>
-  <ul>
-    <li>Full-featured REST API covering user authentication, CRUD operations, and post management.</li>
-    <li>JWT-based auth with OAuth2 password flow, role-based access control, and FastAPI dependency injection.</li>
-    <li>SQLAlchemy ORM with Alembic migrations and Pydantic response models for clean schema separation.</li>
-  </ul>
-
-  <hr>
-
-  <h2>Skills</h2>
-  <dl>
-    <dt><strong>Languages</strong></dt>
-    <dd>Python, C, SQL</dd>
-
-    <dt><strong>Backend</strong></dt>
-    <dd>FastAPI, Uvicorn, REST APIs, WebSockets, JWT, OAuth2, Middleware</dd>
-
-    <dt><strong>Databases</strong></dt>
-    <dd>PostgreSQL, SQLite, SQLAlchemy, Async ORM, Schema Design</dd>
-
-    <dt><strong>Web Concepts</strong></dt>
-    <dd>HTTP, Cookies, Sessions, CORS, Authentication &amp; Authorization, RBAC</dd>
-
-    <dt><strong>Tools</strong></dt>
-    <dd>Git, GitHub, Docker, Linux, Bash, Postman, VS Code</dd>
-  </dl>
+  <h3>REST API Backend</h3>
+  <p>
+    A fairly complete backend with user auth, posts, and the usual CRUD stuff. Built it to
+    get a proper understanding of JWT, OAuth2, database migrations, and how to structure
+    a FastAPI project beyond toy examples.
+    &mdash; <a href="https://github.com/aashutosh-yadav/fastapi">GitHub</a>
+  </p>
 
   <hr>
 
-  <h2>Contact</h2>
-  <ul>
-    <li>Email: <a href="mailto:yadavashutoshh01@gmail.com">yadavashutoshh01@gmail.com</a></li>
-    <li>GitHub: <a href="https://github.com/aashutosh-yadav">github.com/aashutosh-yadav</a></li>
-    <li>LinkedIn: <a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">ashutosh-yadav</a></li>
-    <li>Phone: +91 8149500126</li>
-  </ul>
+  <h2>What I work with</h2>
+  <p>
+    Mostly Python. On the backend side: FastAPI, PostgreSQL, SQLAlchemy, Redis.
+    I'm comfortable with Docker, Linux, and writing SQL by hand when I need to.
+    I've been learning more about how systems behave under load &mdash; concurrency,
+    caching tradeoffs, connection pooling, that kind of thing.
+  </p>
+
+  <hr>
+
+  <h2>Get in touch</h2>
+  <p>
+    <a href="mailto:yadavashutoshh01@gmail.com">yadavashutoshh01@gmail.com</a>
+  </p>
 
 </body>
 </html>
