@@ -1,78 +1,93 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-<title>Ashutosh Yadav</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ashutosh Yadav</title>
 </head>
-
 <body>
 
-<h1>Ashutosh Yadav</h1>
-<p>
-yadavashutoshh01@gmail.com |
-<a href="https://github.com/aashutosh-yadav">github.com/aashutosh-yadav</a> |
-<a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/?skipRedirect=true">linkedin/ashutosh-yadav</a>
-</p>
+  <h1>Ashutosh Yadav</h1>
+  <p>Backend Engineer &mdash; Pune, Maharashtra</p>
+  <p>
+    +91 8149500126 &bull;
+    <a href="mailto:yadavashutoshh01@gmail.com">yadavashutoshh01@gmail.com</a> &bull;
+    <a href="https://github.com/aashutosh-yadav">GitHub</a> &bull;
+    <a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">LinkedIn</a>
+  </p>
 
-<hr>
+  <hr>
 
-<h2>Education</h2>
-<p>
-<b>University of Pune - SPPU</b><br>
-Bachelor of Technology in Computer Engineering<br>
-Pune, Maharashtra (June 2022 – May 2026)
-</p>
+  <h2>About</h2>
+  <p>
+    I'm a final-year Computer Engineering student at SPPU, graduating in May 2026.
+    I build backend systems in Python &mdash; mostly with FastAPI and PostgreSQL &mdash; and
+    care about understanding how systems perform under load.
+  </p>
+  <p>
+    I've been doing deliberate backend practice through 2024&ndash;2025: building real
+    systems, load testing them, and learning from the results.
+  </p>
 
-<h2>Technical Experience</h2>
-<p><b>Backend Development Practice</b> — Self Directed Learning (2024 – Present)</p>
-<ul>
-<li>Built backend systems while learning HTTP protocol and authentication</li>
-<li>Debugged APIs using Postman and analyzed request-response lifecycle</li>
-<li>Studied rate limiting, headers and access control vulnerabilities</li>
-<li>Worked in Linux environment with Git workflows</li>
-</ul>
+  <hr>
 
-<h2>Projects</h2>
-<p><b>Blog Backend API</b> — FastAPI, Python, REST, Authentication</p>
-<ul>
-<li>Designed modular REST backend using structured routing</li>
-<li>Implemented login/signup using cookies and sessions</li>
-<li>Implemented CORS policies and rate limiting</li>
-<li>Database CRUD operations for posts and users</li>
-<li>Practiced HTTP lifecycle and server-client interaction</li>
-</ul>
   <h2>Projects</h2>
 
-<p><b>Blog Backend API</b> — FastAPI, Python, REST, Authentication</p>
-<ul>
-<li>Designed modular REST backend using structured routing</li>
-<li>Implemented login/signup using cookies and sessions</li>
-<li>Implemented CORS policies and rate limiting</li>
-<li>Database CRUD operations for posts and users</li>
-<li>Practiced HTTP lifecycle and server-client interaction</li>
-</ul>
+  <h3>High-Performance URL Shortener</h3>
+  <p><em>Python, FastAPI, PostgreSQL, Redis &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a></em></p>
+  <ul>
+    <li>Built a read-heavy backend achieving ~1900 req/sec at ~50ms latency under 100 concurrent users.</li>
+    <li>Identified worker contention as the primary bottleneck via load testing with <em>hey</em>; improved throughput ~6&times; via multi-worker scaling.</li>
+    <li>Evaluated Redis cache-aside strategy and demonstrated it adds overhead when the database is not the bottleneck.</li>
+    <li>Analyzed system behavior up to 500 concurrent users, identifying saturation at ~2500 RPS.</li>
+  </ul>
 
-<p><b>Course Selling Platform Backend</b> — FastAPI, Python, REST, Authentication, SQL (2025)</p>
-<ul>
-<li>Designed RESTful backend supporting user and admin roles with protected endpoints and authorization checks</li>
-<li>Implemented authentication workflow handling signup/login, cookies, sessions and permission validation</li>
-<li>Modeled relational database schema for users, courses and purchases ensuring consistent ownership mapping</li>
-<li>Built purchase workflow updating user-course relationships and maintaining correct application state</li>
-<li>Handled request validation, structured error responses and HTTP status codes following API standards</li>
-<li>Tested APIs using Postman and debugged request–response lifecycle during development</li>
-</ul>
+  <h3>Learnlense &mdash; Intelligent Video Summarization</h3>
+  <p><em>Python, FastAPI, LLaMA 3.3 70B, Whisper ASR, LiteLLM &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a></em></p>
+  <ul>
+    <li>End-to-end AI pipeline that transcribes YouTube videos and MP4 uploads via Faster-Whisper and generates summaries via LLaMA 3.3 70B (Groq API).</li>
+    <li>Ships 7 AI-driven features: abstractive summarization, sentiment analysis, concept mind maps, prerequisite detection, streaming Q&amp;A chatbot, Markdown export, and PDF generation.</li>
+    <li>LiteLLM handles provider-agnostic orchestration with automatic fallback (Groq &rarr; Gemini &rarr; Ollama) and real-time cost tracking.</li>
+    <li>Achieves 70% semantic accuracy in under 3 minutes on CPU-only hardware. Research paper submitted.</li>
+  </ul>
 
-<h2>Technical Skills</h2>
-<p>
-Languages: Python, C, JavaScript, SQL<br>
-Backend: FastAPI, REST APIs, HTTP, Cookies, Sessions, CORS<br>
-Databases: SQLite, Relational Schema Design<br>
-Security: Access Control, Rate Limiting, Request Analysis<br>
-Tools: Git, GitHub, Linux, Bash, Postman, Vim
-</p>
+  <h3>RESTful API Backend</h3>
+  <p><em>Python, FastAPI, PostgreSQL, SQLAlchemy, Alembic, JWT &mdash; <a href="https://github.com/aashutosh-yadav/fastapi">GitHub</a></em></p>
+  <ul>
+    <li>Full-featured REST API covering user authentication, CRUD operations, and post management.</li>
+    <li>JWT-based auth with OAuth2 password flow, role-based access control, and FastAPI dependency injection.</li>
+    <li>SQLAlchemy ORM with Alembic migrations and Pydantic response models for clean schema separation.</li>
+  </ul>
 
-<hr>
+  <hr>
 
-<p><a href="resume.pdf" target="_blank" rel="noopener noreferrer">Download PDF Resume</a></p>
+  <h2>Skills</h2>
+  <dl>
+    <dt><strong>Languages</strong></dt>
+    <dd>Python, C, SQL</dd>
+
+    <dt><strong>Backend</strong></dt>
+    <dd>FastAPI, Uvicorn, REST APIs, WebSockets, JWT, OAuth2, Middleware</dd>
+
+    <dt><strong>Databases</strong></dt>
+    <dd>PostgreSQL, SQLite, SQLAlchemy, Async ORM, Schema Design</dd>
+
+    <dt><strong>Web Concepts</strong></dt>
+    <dd>HTTP, Cookies, Sessions, CORS, Authentication &amp; Authorization, RBAC</dd>
+
+    <dt><strong>Tools</strong></dt>
+    <dd>Git, GitHub, Docker, Linux, Bash, Postman, VS Code</dd>
+  </dl>
+
+  <hr>
+
+  <h2>Contact</h2>
+  <ul>
+    <li>Email: <a href="mailto:yadavashutoshh01@gmail.com">yadavashutoshh01@gmail.com</a></li>
+    <li>GitHub: <a href="https://github.com/aashutosh-yadav">github.com/aashutosh-yadav</a></li>
+    <li>LinkedIn: <a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">ashutosh-yadav</a></li>
+    <li>Phone: +91 8149500126</li>
+  </ul>
+
 </body>
 </html>
