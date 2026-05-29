@@ -1,0 +1,18 @@
+# Ashutosh Yadav - Backend Engineer
+
+## About
+Backend engineer based in Pune, India. Finishing Computer Engineering at SPPU in 2026.
+Focused on Python backend systems and performance engineering.
+
+## Projects
+- URL Shortener: load testing, bottleneck analysis, Redis tradeoffs
+- Learnlense: AI video summarization pipeline, Whisper + LLaMA 3.3 70B
+- REST API: FastAPI, PostgreSQL, JWT auth, SQLAlchemy
+
+## Skills
+Python, FastAPI, PostgreSQL, Redis, SQLAlchemy, Docker, Linux
+
+## Contact
+- Email: yadavashutoshh01 [at] gmail [dot] com
+- GitHub: github.com/aashutosh-yadav
+- LinkedIn: linkedin.com/in/ashutosh-yadav-2a186b260
