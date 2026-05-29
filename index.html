@@ -4,75 +4,195 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ashutosh Yadav</title>
+  <meta name="description" content="Personal site of Ashutosh Yadav, backend engineer based in Pune, India.">
+  <meta name="author" content="Ashutosh Yadav">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Ashutosh Yadav",
+    "jobTitle": "Backend Engineer",
+    "email": "yadavashutoshh01@gmail.com",
+    "knowsAbout": ["Backend Engineering","Python","FastAPI","PostgreSQL","Redis","Performance Engineering","REST APIs","JWT Authentication","SQLAlchemy","Docker","AI Pipelines"],
+    "sameAs": [
+      "https://github.com/aashutosh-yadav",
+      "https://www.linkedin.com/in/ashutosh-yadav-2a186b260/"
+    ]
+  }
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 15px;
+      line-height: 1.75;
+      color: #111;
+      background: #fff;
+    }
+
+    .page {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      gap: 24px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+      margin-bottom: 36px;
+    }
+
+    nav a {
+      color: #111;
+      text-decoration: none;
+    }
+
+    nav a.active {
+      text-decoration: underline;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* CONTENT */
+    h1 {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+
+    .subtitle {
+      color: #555;
+      margin-bottom: 16px;
+    }
+
+    p {
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+
+    a { color: #111; }
+
+    blockquote {
+      border-left: 3px solid #ccc;
+      padding-left: 16px;
+      color: #444;
+      margin: 16px 0;
+      font-style: italic;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 32px 0;
+    }
+
+    footer {
+      color: #555;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
+<div class="page">
+
+  <nav>
+    <a href="/" class="active">Ashutosh Yadav</a>
+  </nav>
 
   <h1>Ashutosh Yadav</h1>
-  <p>
-    <a href="mailto:yadavashutoshh01@gmail.com">Email</a> &bull;
-    <a href="https://github.com/aashutosh-yadav">GitHub</a> &bull;
-    <a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">LinkedIn</a>
-  </p>
-
-  <hr>
+  <p class="subtitle">(Aashutosh on GitHub, but one 'a' is fine)</p>
 
   <p>
-    I'm a backend engineer based in Pune, finishing my Computer Engineering degree at SPPU in 2026.
-    I mostly write Python &mdash; building APIs, thinking about system design, and figuring out
-    why things get slow under load.
+    I'm a backend engineer finishing my Computer Engineering degree at SPPU, Pune in 2026.
+    I like building systems and understanding how they behave under pressure.
   </p>
+
   <p>
-    For the past year or so I've been doing deliberate practice: taking a system, pushing it until
-    it breaks, understanding why, and fixing it. I find that more useful than just reading about it.
+    Links:
+    [<a href="mailto:yadavashutoshh01@gmail.com">Email</a>]
+    [<a href="https://github.com/aashutosh-yadav">GitHub</a>]
+    [<a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">LinkedIn</a>]
   </p>
 
-  <hr>
+  <h2>What I'm interested in</h2>
 
-  <h2>Things I've built</h2>
-
-  <h3>URL Shortener</h3>
   <p>
-    I built this to learn what "performance" actually means in practice. After a lot of load testing
-    I got it to ~1900 requests per second at around 50ms latency. The interesting part wasn't the
-    number &mdash; it was figuring out that worker contention was the bottleneck, not the database,
-    which meant the Redis cache I added was actually making things <em>slower</em>. That was a
-    useful lesson.
-    &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a>
+    I spend most of my time thinking about backend systems &mdash; not just making them work,
+    but understanding <em>why</em> they break. Caching doesn't always help.
+    Adding workers isn't always the answer. I want to know when and why.
   </p>
 
-  <h3>Learnlense</h3>
   <p>
-    An AI tool that takes a YouTube video or an MP4 and turns it into something useful &mdash;
-    a summary, a mind map, a Q&amp;A chatbot, and a few other things. It transcribes audio with
-    Whisper and then passes that to LLaMA 3.3 70B. I also set up a fallback chain so if one
-    provider is down it automatically tries the next one. Wrote a research paper on it too.
-    &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a>
+    Recently I've been going deeper into how databases and application servers interact
+    under concurrency &mdash; connection pooling, queueing effects, saturation points.
+    The gap between "it works" and "it works at scale" is where I like to dig.
   </p>
 
-  <h3>REST API Backend</h3>
+  <h2>Projects</h2>
+
   <p>
-    A fairly complete backend with user auth, posts, and the usual CRUD stuff. Built it to
-    get a proper understanding of JWT, OAuth2, database migrations, and how to structure
-    a FastAPI project beyond toy examples.
-    &mdash; <a href="https://github.com/aashutosh-yadav/fastapi">GitHub</a>
+    <strong>URL Shortener</strong> &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a><br>
+    Built a read-heavy backend to understand performance in practice. Got it to ~1900 req/sec
+    at ~50ms latency. The surprising finding: adding Redis made things <em>slower</em> because
+    the database wasn't the bottleneck &mdash; worker contention was. Load tested up to 500
+    concurrent users and mapped where the system saturates (~2500 RPS).
   </p>
 
-  <hr>
+  <p>
+    <strong>Learnlense</strong> &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a><br>
+    An AI pipeline that takes a YouTube video or MP4 and produces a summary, mind map,
+    Q&amp;A chatbot, and more. Transcription via Whisper, LLM via LLaMA 3.3 70B through Groq.
+    Built a fallback chain (Groq &rarr; Gemini &rarr; Ollama) so it stays up if a provider goes down.
+    Runs in under 3 minutes on CPU only. Research paper submitted.
+  </p>
+
+  <p>
+    <strong>REST API Backend</strong> &mdash; <a href="https://github.com/aashutosh-yadav/fastapi">GitHub</a><br>
+    A complete backend with auth, CRUD, and post management. Built to get a proper
+    understanding of JWT, OAuth2, SQLAlchemy, and how to structure a FastAPI project
+    beyond toy examples.
+  </p>
 
   <h2>What I work with</h2>
+
   <p>
-    Mostly Python. On the backend side: FastAPI, PostgreSQL, SQLAlchemy, Redis.
-    I'm comfortable with Docker, Linux, and writing SQL by hand when I need to.
-    I've been learning more about how systems behave under load &mdash; concurrency,
-    caching tradeoffs, connection pooling, that kind of thing.
+    Python mostly. FastAPI, PostgreSQL, SQLAlchemy, Redis, Docker, Linux.
+    I write SQL by hand when I need to. Comfortable reading system metrics
+    and thinking about what they mean.
+  </p>
+
+  <h2>Interests</h2>
+
+  <p>
+    I find distributed systems papers genuinely interesting to read.
+    I enjoy breaking things in a controlled environment and fixing them.
+    Currently reading more about consensus algorithms and storage engines.
   </p>
 
   <hr>
 
-  <h2>Get in touch</h2>
-  <p>
-    <a href="mailto:yadavashutoshh01@gmail.com">yadavashutoshh01@gmail.com</a>
-  </p>
+  <footer>
+    <p>
+      Machine-readable:
+      [<a href="/robots.txt">robots.txt</a>]
+      [<a href="/llms.txt">llms.txt</a>]
+    </p>
+    <p>Contact: yadavashutoshh01 [at] gmail [dot] com</p>
+    <p>&copy; 2026 Ashutosh Yadav</p>
+  </footer>
 
+</div>
 </body>
 </html>
