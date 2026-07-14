@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -194,5 +194,432 @@
   </footer>
 
 </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ashutosh Yadav - Backend Engineer</title>
+  <!-- Modern, clean sans-serif font and premium monospace font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* System Design Variables */
+    :root {
+      --bg-dark: #0a0e14;
+      --bg-card: rgba(17, 25, 39, 0.6);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(56, 189, 248, 0.4);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent: #38bdf8;          /* Cyber sky blue */
+      --accent-glow: rgba(56, 189, 248, 0.15);
+      --accent-green: #34d399;     /* Metrics green */
+      --accent-green-glow: rgba(52, 211, 153, 0.15);
+    }
+
+    /* Global Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      /* Premium dot-matrix background pattern */
+      background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* Top Navigation bar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    nav a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.5px;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    /* Hero Bio Section */
+    header {
+      margin-bottom: 3rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(to right, #ffffff, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .bio-text {
+      font-size: 1.05rem;
+      color: #d1d5db;
+      max-width: 720px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Contact Links */
+    .links-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.02);
+      transition: all 0.2s ease;
+    }
+
+    .btn-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      transform: translateY(-1px);
+    }
+
+    /* Sections Hierarchy */
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-main);
+    }
+
+    h2::before {
+      content: '>';
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    section {
+      margin-bottom: 3.5rem;
+    }
+
+    .interest-text {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .interest-text em {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      font-style: normal;
+      background: rgba(56, 189, 248, 0.08);
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+    }
+
+    /* Bento/Card Grid Layout */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 640px) {
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      /* Let the high-performance URL shortener span 2 columns to highlight it */
+      .project-card.featured {
+        grid-column: span 2;
+      }
+    }
+
+    /* Modern Glassmorphic Cards */
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-hover);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 0 15px var(--accent-glow);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .project-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* Metrics Badge (for showcasing performance stats) */
+    .metric-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      background: var(--accent-green-glow);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .project-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    .project-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .project-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Tech Stack Pills Layout */
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tech-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: #e5e7eb;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+    }
+
+    /* Footer styling */
+    hr {
+      border: none;
+      border-top: 1px dashed var(--border-color);
+      margin: 3rem 0 1.5rem 0;
+    }
+
+    footer {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <nav>
+      <a href="/">Ashutosh Yadav</a>
+    </nav>
+
+    <header>
+      <h1>Ashutosh Yadav</h1>
+      <p class="subtitle">&lt;how are my web design skills '-' /&gt;</p>
+      
+      <p class="bio-text">
+        I'm a backend engineer finishing my Computer Engineering degree at SPPU, Pune in 2026.
+        I like building systems and understanding how they behave under pressure.
+      </p>
+
+      <div class="links-group">
+        <a href="mailto:yadavashutoshh01@gmail.com" class="btn-link">Email</a>
+        <a href="https://github.com/aashutosh-yadav" class="btn-link" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/" class="btn-link" target="_blank">LinkedIn</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>What I'm interested in</h2>
+      <p class="interest-text">
+        I spend most of my time thinking about backend systems — not just making them work,
+        but understanding <em>why</em> they break. Caching doesn't always help.
+        Adding workers isn't always the answer. I want to know when and why.
+      </p>
+      <p class="interest-text">
+        Recently I've been going deeper into how databases and application servers interact
+        under concurrency — connection pooling, queueing effects, saturation points.
+        The gap between "it works" and "it works at scale" is where I like to dig.
+      </p>
+    </section>
+
+    <section>
+      <h2>Projects</h2>
+      
+      <div class="projects-grid">
+        <!-- FEATURED CARD (Spans full-width on larger viewports) -->
+        <div class="project-card featured">
+          <div>
+            <div class="project-header">
+              <span class="project-title">URL Shortener</span>
+              <span class="metric-badge">~1,900 RPS @ 50ms</span>
+            </div>
+            <p class="project-desc">
+              Built a read-heavy backend to understand performance in practice. The surprising finding: adding Redis made things <em>slower</em> because the database wasn't the bottleneck — worker contention was. Load tested up to 500 concurrent users and mapped where the system saturates (~2500 RPS).
+            </p>
+          </div>
+          <a href="https://github.com/aashutosh-yadav/Infinity" class="project-link" target="_blank">View Repository →</a>
+        </div>
+
+        <div class="project-card">
+          <div>
+            <div class="project-header">
+              <span class="project-title">Learnlense</span>
+              <span class="metric-badge">CPU Only</span>
+            </div>
+            <p class="project-desc">
+              An AI pipeline that takes a YouTube video or MP4 and produces a summary, mind map, and Q&A chatbot. Transcription via Whisper, LLM via LLaMA 3.3 70B. Built a fallback chain (Groq → Gemini → Ollama). Research paper submitted.
+            </p>
+          </div>
+          <a href="https://github.com/aashutosh-yadav/LearnLense" class="project-link" target="_blank">View Repository →</a>
+        </div>
+
+        <div class="project-card">
+          <div>
+            <div class="project-header">
+              <span class="project-title">REST API Backend</span>
+              <span class="metric-badge">Clean Architecture</span>
+            </div>
+            <p class="project-desc">
+              A complete backend with auth, CRUD, and post management. Built to get a proper understanding of JWT, OAuth2, SQLAlchemy, and how to structure a FastAPI project beyond toy examples.
+            </p>
+          </div>
+          <a href="https://github.com/aashutosh-yadav/fastapi" class="project-link" target="_blank">View Repository →</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>What I work with</h2>
+      <div class="tech-list">
+        <span class="tech-pill">Python</span>
+        <span class="tech-pill">FastAPI</span>
+        <span class="tech-pill">PostgreSQL</span>
+        <span class="tech-pill">SQLAlchemy</span>
+        <span class="tech-pill">Redis</span>
+        <span class="tech-pill">Docker</span>
+        <span class="tech-pill">Linux</span>
+        <span class="tech-pill">SQL</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Interests</h2>
+      <p class="interest-text">
+        I find distributed systems papers genuinely interesting to read.
+        I enjoy breaking things in a controlled environment and fixing them.
+        Currently reading more about consensus algorithms and storage engines.
+      </p>
+    </section>
+
+    <hr>
+
+    <footer>
+      <div class="footer-row">
+        <span>Machine-readable: 
+          [<a href="/robots.txt">robots.txt</a>] 
+          [<a href="/llms.txt">llms.txt</a>]
+        </span>
+        <span>Contact: yadavashutoshh01 [at] gmail [dot] com</span>
+      </div>
+      <div>
+        <span>© 2026 Ashutosh Yadav</span>
+      </div>
+    </footer>
+  </div>
+
 </body>
 </html>
