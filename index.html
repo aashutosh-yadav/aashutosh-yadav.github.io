@@ -23,6 +23,8 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  html { scroll-behavior: smooth; }
+
   body {
     font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
     font-size: 15px;
@@ -37,21 +39,36 @@
     padding: 40px 20px 80px;
   }
 
+  /* Tab-look nav that just jumps to sections on the same page */
   nav {
     display: flex;
-    gap: 24px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
+    gap: 28px;
+    border-bottom: 1px solid #e0e0e0;
     margin-bottom: 36px;
   }
 
   nav a {
-    color: #111;
+    font-size: 0.95rem;
     text-decoration: none;
+    padding: 0 2px 10px;
+    color: #8a8a8a;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
   }
 
-  nav a.active { text-decoration: underline; }
-  nav a:hover { text-decoration: underline; }
+  nav a:hover {
+    color: #333;
+  }
+
+  nav a.active {
+    color: #1a5fb4;
+    font-weight: 600;
+    border-bottom-color: #e8791a;
+  }
+
+  section[id] {
+    scroll-margin-top: 24px;
+  }
 
   h1 {
     font-size: 1.3rem;
@@ -95,14 +112,6 @@
     margin-bottom: 6px;
   }
 
-  .entry ul {
-    margin: 6px 0 0 18px;
-  }
-
-  .entry li {
-    margin-bottom: 4px;
-  }
-
   .skills-row {
     margin-bottom: 6px;
   }
@@ -129,123 +138,130 @@
 <div class="page">
 
   <nav>
-    <a href="#" class="active">Ashutosh Yadav</a>
+    <a href="#home" class="nav-link active" data-tab="home">Ashutosh Yadav</a>
+    <a href="#about" class="nav-link" data-tab="about">About</a>
   </nav>
 
-  <h1>Ashutosh Yadav</h1>
-  <p class="role">Backend Engineer</p>
+  <section id="home">
 
-  <p>
-    I'm a backend engineer finishing my B.Tech in Computer Engineering at
-    SPPU, Pune (2022&ndash;2026). I like building systems and understanding
-    how they behave under pressure &mdash; where caching actually helps,
-    where more workers doesn't, and why.
-  </p>
+    <h1>Ashutosh Yadav</h1>
+    <p class="role">Backend Engineer</p>
 
-  <p>
-    Links:
-    [<a href="mailto:yadavashutoshh01@gmail.com">Email</a>]
-    [<a href="https://github.com/aashutosh-yadav">GitHub</a>]
-    [<a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">LinkedIn</a>]
-  </p>
-
-  <h2>About</h2>
-
-  <p>
-    I spend most of my time thinking about backend systems &mdash; not just
-    making them work, but understanding <em>why</em> they break. Caching
-    doesn't always help. Adding workers isn't always the answer. I want to
-    know when and why.
-  </p>
-
-  <p>
-    Recently I've been going deeper into how databases and application
-    servers interact under concurrency &mdash; connection pooling, queueing
-    effects, saturation points. The gap between "it works" and "it works at
-    scale" is where I like to dig.
-  </p>
-
-  <h2>Education</h2>
-
-  <div class="entry">
-    <div class="meta">2022 &ndash; 2026</div>
-    <div class="title">B.Tech in Computer Engineering</div>
-    <div class="stack">University of Pune &mdash; SPPU, Pune, Maharashtra</div>
-  </div>
-
-  <h2>Selected Work</h2>
-
-  <div class="entry">
-    <div class="meta">2025 &ndash; 2026</div>
-    <div class="title">High-Performance URL Shortener &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a></div>
-    <div class="stack">Python, FastAPI, PostgreSQL, Redis, Docker</div>
     <p>
-      Built a read-heavy backend to understand performance in practice. Got
-      it to ~1900 req/sec at ~50ms latency under 100 concurrent users. The
-      surprising finding: adding Redis made things <em>slower</em> because
-      the database wasn't the bottleneck &mdash; worker contention was.
-      Multi-worker scaling improved throughput ~6x. Load tested up to 500
-      concurrent users and mapped where the system saturates (~2500 RPS).
+      I'm a backend engineer finishing my B.Tech in Computer Engineering at
+      SPPU, Pune (2022&ndash;2026). I like building systems and understanding
+      how they behave under pressure &mdash; where caching actually helps,
+      where more workers doesn't, and why.
     </p>
-  </div>
 
-  <div class="entry">
-    <div class="meta">2026 &ndash; Present</div>
-    <div class="title">Onscreen &mdash; AI Desktop Assistant &mdash; <a href="https://github.com/aashutosh-yadav">GitHub</a></div>
-    <div class="stack">Electron, TypeScript, React, Python, FastAPI, LiteLLM</div>
     <p>
-      A two-process, screen-aware AI desktop assistant: an Electron/React
-      overlay frontend paired with a Python FastAPI backend for instant
-      desktop context analysis. Implemented XDG Desktop Portal screenshot
-      capture for GNOME 49 on Wayland with no external dependencies, and
-      integrated LiteLLM for provider-agnostic routing across Groq,
-      Anthropic Claude, GPT-4o, and local Ollama models.
+      Links:
+      [<a href="mailto:yadavashutoshh01@gmail.com">Email</a>]
+      [<a href="https://github.com/aashutosh-yadav">GitHub</a>]
+      [<a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">LinkedIn</a>]
     </p>
-  </div>
 
-  <div class="entry">
-    <div class="meta">2026</div>
-    <div class="title">Learnlense &mdash; Intelligent Video Summarization &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a></div>
-    <div class="stack">Python, FastAPI, LLaMA 3.3 70B, Whisper ASR, LiteLLM</div>
+    <h2>Selected Work</h2>
+
+    <div class="entry">
+      <div class="meta">2025 &ndash; 2026</div>
+      <div class="title">High-Performance URL Shortener &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a></div>
+      <div class="stack">Python, FastAPI, PostgreSQL, Redis, Docker</div>
+      <p>
+        Built a read-heavy backend to understand performance in practice. Got
+        it to ~1900 req/sec at ~50ms latency under 100 concurrent users. The
+        surprising finding: adding Redis made things <em>slower</em> because
+        the database wasn't the bottleneck &mdash; worker contention was.
+        Multi-worker scaling improved throughput ~6x. Load tested up to 500
+        concurrent users and mapped where the system saturates (~2500 RPS).
+      </p>
+    </div>
+
+    <div class="entry">
+      <div class="meta">2026 &ndash; Present</div>
+      <div class="title">Onscreen &mdash; AI Desktop Assistant &mdash; <a href="https://github.com/aashutosh-yadav">GitHub</a></div>
+      <div class="stack">Electron, TypeScript, React, Python, FastAPI, LiteLLM</div>
+      <p>
+        A two-process, screen-aware AI desktop assistant: an Electron/React
+        overlay frontend paired with a Python FastAPI backend for instant
+        desktop context analysis. Implemented XDG Desktop Portal screenshot
+        capture for GNOME 49 on Wayland with no external dependencies, and
+        integrated LiteLLM for provider-agnostic routing across Groq,
+        Anthropic Claude, GPT-4o, and local Ollama models.
+      </p>
+    </div>
+
+    <div class="entry">
+      <div class="meta">2026</div>
+      <div class="title">Learnlense &mdash; Intelligent Video Summarization &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a></div>
+      <div class="stack">Python, FastAPI, LLaMA 3.3 70B, Whisper ASR, LiteLLM</div>
+      <p>
+        An AI pipeline that turns a YouTube video or MP4 into a summary, mind
+        map, and Q&amp;A chatbot. Transcription via Faster-Whisper, generation
+        via LLaMA 3.3 70B through Groq, with an automatic fallback chain
+        (Groq &rarr; Gemini &rarr; Ollama) so it stays up if a provider goes
+        down. 70% semantic accuracy, sub-3-minute processing on CPU only.
+        Research paper submitted.
+      </p>
+    </div>
+
+    <div class="entry">
+      <div class="title">REST API Backend &mdash; <a href="https://github.com/aashutosh-yadav/fastapi">GitHub</a></div>
+      <div class="stack">Python, FastAPI, PostgreSQL, SQLAlchemy, JWT, OAuth2</div>
+      <p>
+        A complete backend with auth, CRUD, and post management &mdash; built
+        to get a proper understanding of JWT, OAuth2, SQLAlchemy, and how to
+        structure a FastAPI project beyond toy examples.
+      </p>
+    </div>
+
+    <h2>Skills</h2>
+
+    <div class="skills-row"><span class="label">Languages:</span> Python / C++ / Go / SQL / TypeScript / Bash</div>
+    <div class="skills-row"><span class="label">Backend & Systems:</span> REST APIs / Algorithm Design / System Design</div>
+    <div class="skills-row"><span class="label">Databases:</span> PostgreSQL / SQLite / Redis</div>
+    <div class="skills-row"><span class="label">Tools:</span> Git / GitHub / Docker / Postman / Nginx / Linux</div>
+
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+
     <p>
-      An AI pipeline that turns a YouTube video or MP4 into a summary, mind
-      map, and Q&amp;A chatbot. Transcription via Faster-Whisper, generation
-      via LLaMA 3.3 70B through Groq, with an automatic fallback chain
-      (Groq &rarr; Gemini &rarr; Ollama) so it stays up if a provider goes
-      down. 70% semantic accuracy, sub-3-minute processing on CPU only.
-      Research paper submitted.
+      I spend most of my time thinking about backend systems &mdash; not just
+      making them work, but understanding <em>why</em> they break. Caching
+      doesn't always help. Adding workers isn't always the answer. I want to
+      know when and why.
     </p>
-  </div>
 
-  <div class="entry">
-    <div class="title">REST API Backend &mdash; <a href="https://github.com/aashutosh-yadav/fastapi">GitHub</a></div>
-    <div class="stack">Python, FastAPI, PostgreSQL, SQLAlchemy, JWT, OAuth2</div>
     <p>
-      A complete backend with auth, CRUD, and post management &mdash; built
-      to get a proper understanding of JWT, OAuth2, SQLAlchemy, and how to
-      structure a FastAPI project beyond toy examples.
+      Recently I've been going deeper into how databases and application
+      servers interact under concurrency &mdash; connection pooling, queueing
+      effects, saturation points. The gap between "it works" and "it works at
+      scale" is where I like to dig.
     </p>
-  </div>
 
-  <h2>Skills</h2>
+    <h2>Education</h2>
 
-  <div class="skills-row"><span class="label">Languages:</span> Python / C++ / Go / SQL / TypeScript / Bash</div>
-  <div class="skills-row"><span class="label">Backend & Systems:</span> REST APIs / Algorithm Design / System Design</div>
-  <div class="skills-row"><span class="label">Databases:</span> PostgreSQL / SQLite / Redis</div>
-  <div class="skills-row"><span class="label">Tools:</span> Git / GitHub / Docker / Postman / Nginx / Linux</div>
+    <div class="entry">
+      <div class="meta">2022 &ndash; 2026</div>
+      <div class="title">B.Tech in Computer Engineering</div>
+      <div class="stack">University of Pune &mdash; SPPU, Pune, Maharashtra</div>
+    </div>
 
-  <h2>Interests</h2>
+    <h2>Interests</h2>
 
-  <p>
-    I find distributed systems papers genuinely interesting to read. I
-    enjoy breaking things in a controlled environment and fixing them.
-    Currently reading more about consensus algorithms and storage engines.
-  </p>
+    <p>
+      I find distributed systems papers genuinely interesting to read. I
+      enjoy breaking things in a controlled environment and fixing them.
+      Currently reading more about consensus algorithms and storage engines.
+    </p>
+  </section>
 
   <hr>
 
   <footer>
-    <p>Contact: yadavashutoshh01 [at] gmail [dot] com &nbsp;|&nbsp;</p>
+    <p>Contact: yadavashutoshh01 [at] gmail [dot] com &nbsp;|&nbsp; +91 8149500126</p>
     <p>
       [<a href="https://github.com/aashutosh-yadav">GitHub</a>]
       [<a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">LinkedIn</a>]
@@ -254,5 +270,28 @@
   </footer>
 
 </div>
+
+<script>
+  // Highlight the nav link for whichever section is currently in view
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
+  var sections = navLinks.map(function (link) {
+    return document.getElementById(link.dataset.tab);
+  });
+
+  function setActiveFromScroll() {
+    var scrollPos = window.scrollY + 80;
+    var current = sections[0];
+    sections.forEach(function (sec) {
+      if (sec.offsetTop <= scrollPos) current = sec;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.toggle('active', link.dataset.tab === current.id);
+    });
+  }
+
+  window.addEventListener('scroll', setActiveFromScroll);
+  setActiveFromScroll();
+</script>
+
 </body>
 </html>
