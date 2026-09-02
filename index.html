@@ -8,280 +8,338 @@
 <meta name="author" content="Ashutosh Yadav">
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Ashutosh Yadav",
-  "jobTitle": "Backend Engineer",
-  "email": "yadavashutoshh01@gmail.com",
-  "knowsAbout": ["Backend Engineering","Python","FastAPI","PostgreSQL","Redis","Go","System Design","REST APIs","Docker","AI Pipelines"],
-  "sameAs": [
-    "https://github.com/aashutosh-yadav",
-    "https://www.linkedin.com/in/ashutosh-yadav-2a186b260/"
-  ]
+"@context": "https://schema.org",
+"@type": "Person",
+"name": "Ashutosh Yadav",
+"jobTitle": "Backend Engineer",
+"email": "yadavashutoshh01@gmail.com",
+"knowsAbout": ["Backend Engineering","Python","FastAPI","PostgreSQL","Redis","Go","System Design","REST APIs","Docker","AI Pipelines"],
+"sameAs": [
+"https://github.com/aashutosh-yadav",
+"https://www.linkedin.com/in/ashutosh-yadav-2a186b260/"
+]
 }
 </script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+  font-size: 15px;
+  line-height: 1.75;
+  color: #111;
+  background: #fff;
+}
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
 
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
-    font-size: 15px;
-    line-height: 1.75;
-    color: #111;
-    background: #fff;
-  }
-
-  .page {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 40px 20px 80px;
-  }
-
-  /* Tab-look nav that just jumps to sections on the same page */
-  nav {
-    display: flex;
-    gap: 28px;
-    border-bottom: 1px solid #e0e0e0;
-    margin-bottom: 36px;
-  }
-
-  nav a {
-    font-size: 0.95rem;
-    text-decoration: none;
-    padding: 0 2px 10px;
-    color: #8a8a8a;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-  }
-
-  nav a:hover {
-    color: #333;
-  }
-
-  nav a.active {
-    color: #1a5fb4;
-    font-weight: 600;
-    border-bottom-color: #e8791a;
-  }
-
-  section[id] {
-    scroll-margin-top: 24px;
-  }
-
-  h1 {
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-bottom: 2px;
-  }
-
-  .role {
-    color: #555;
-    margin-bottom: 16px;
-  }
-
-  p { margin-bottom: 14px; }
-
-  h2 {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-top: 32px;
-    margin-bottom: 12px;
-  }
-
-  a { color: #1a5fb4; }
-  a:hover { text-decoration: underline; }
-
-  .entry { margin-bottom: 20px; }
-
-  .entry .meta {
-    color: #888;
-    font-size: 0.85rem;
-    margin-bottom: 2px;
-  }
-
-  .entry .title {
-    font-weight: bold;
-    margin-bottom: 2px;
-  }
-
-  .entry .stack {
-    color: #888;
-    font-size: 0.85rem;
-    margin-bottom: 6px;
-  }
-
-  .skills-row {
-    margin-bottom: 6px;
-  }
-
-  .skills-row .label {
-    color: #888;
-  }
-
-  hr {
-    border: none;
-    border-top: 1px solid #ccc;
-    margin: 32px 0;
-  }
-
-  footer {
-    color: #555;
-    font-size: 0.9rem;
-  }
-
-  footer p { margin-bottom: 6px; }
+/* Tab-look nav that just jumps to sections on the same page */
+nav {
+  display: flex;
+  gap: 28px;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+nav a {
+  font-size: 0.95rem;
+  text-decoration: none;
+  padding: 0 2px 10px;
+  color: #8a8a8a;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+nav a:hover {
+  color: #333;
+}
+nav a.active {
+  color: #1a5fb4;
+  font-weight: 600;
+  border-bottom-color: #e8791a;
+}
+section[id] {
+  scroll-margin-top: 24px;
+}
+h1 {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+.role {
+  color: #555;
+  margin-bottom: 16px;
+}
+p { margin-bottom: 14px; }
+h2 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+h3 {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #1a5fb4;
+  margin-top: 26px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #ddd;
+}
+h3 .count {
+  color: #aaa;
+  font-weight: normal;
+}
+a { color: #1a5fb4; }
+a:hover { text-decoration: underline; }
+.entry { margin-bottom: 20px; }
+.entry .meta {
+  color: #888;
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+.entry .title {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+.entry .stack {
+  color: #888;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}
+.skills-row {
+  margin-bottom: 6px;
+}
+.skills-row .label {
+  color: #888;
+}
+.intro-line {
+  color: #555;
+  margin-bottom: 28px;
+}
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 32px 0;
+}
+footer {
+  color: #555;
+  font-size: 0.9rem;
+}
+footer p { margin-bottom: 6px; }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <nav>
-    <a href="#home" class="nav-link active" data-tab="home">Ashutosh Yadav</a>
-    <a href="#about" class="nav-link" data-tab="about">About</a>
-  </nav>
+<nav>
+  <a href="#home" class="nav-link active" data-tab="home">Ashutosh Yadav</a>
+  <a href="#projects" class="nav-link" data-tab="projects">Projects</a>
+  <a href="#about" class="nav-link" data-tab="about">About</a>
+</nav>
 
-  <section id="home">
+<section id="home">
+  <h1>Ashutosh Yadav</h1>
+  <p class="role">Backend Engineer</p>
+  <p>
+    I'm a backend engineer finishing my B.Tech in Computer Engineering at
+    SPPU, Pune (2022&ndash;2026). I like building systems and understanding
+    how they behave under pressure &mdash; where caching actually helps,
+    where more workers doesn't, and why.
+  </p>
+  <p>
+    Links:
+    [<a href="mailto:yadavashutoshh01@gmail.com">Email</a>]
+    [<a href="https://github.com/aashutosh-yadav">GitHub</a>]
+    [<a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">LinkedIn</a>]
+  </p>
 
-    <h1>Ashutosh Yadav</h1>
-    <p class="role">Backend Engineer</p>
+  <h2>Selected Work</h2>
 
+  <div class="entry">
+    <div class="meta">2025 &ndash; 2026</div>
+    <div class="title">High-Performance URL Shortener &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a></div>
+    <div class="stack">Python, FastAPI, PostgreSQL, Redis, Docker</div>
     <p>
-      I'm a backend engineer finishing my B.Tech in Computer Engineering at
-      SPPU, Pune (2022&ndash;2026). I like building systems and understanding
-      how they behave under pressure &mdash; where caching actually helps,
-      where more workers doesn't, and why.
+      Built a read-heavy backend to understand performance in practice. Got
+      it to ~1900 req/sec at ~50ms latency under 100 concurrent users. The
+      surprising finding: adding Redis made things <em>slower</em> because
+      the database wasn't the bottleneck &mdash; worker contention was.
+      Multi-worker scaling improved throughput ~6x. Load tested up to 500
+      concurrent users and mapped where the system saturates (~2500 RPS).
     </p>
+  </div>
 
+  <p><a href="#projects">See everything I've built &rarr;</a></p>
+
+  <h2>Skills</h2>
+  <div class="skills-row"><span class="label">Languages:</span> Python / C++ / Go / SQL / TypeScript / Bash</div>
+  <div class="skills-row"><span class="label">Backend & Systems:</span> REST APIs / Algorithm Design / System Design</div>
+  <div class="skills-row"><span class="label">Databases:</span> PostgreSQL / SQLite / Redis</div>
+  <div class="skills-row"><span class="label">Tools:</span> Git / GitHub / Docker / Postman / Nginx / Linux</div>
+</section>
+
+<section id="projects">
+  <h1>Projects</h1>
+  <p class="intro-line">
+    I build something small most days &mdash; often re-implementing a
+    concept from first principles to see how it actually works underneath.
+    Grouped by area below.
+  </p>
+
+  <!--
+    ============================================================
+    HOW TO ADD A NEW PROJECT (do this daily, takes ~30 seconds):
+    1. Find the right category h3 below (or add a new one, see
+       the block at the very bottom for a blank category).
+    2. Copy one <div class="entry">...</div> block.
+    3. Paste it as the FIRST entry under that category's h3
+       (newest on top).
+    4. Edit: meta (date), title + link, stack, and the paragraph.
+    5. Save, git add / commit / push. GitHub Pages updates itself.
+    ============================================================
+  -->
+
+  <h3>AI / LLM <span class="count">&mdash; RAG, agents, pipelines</span></h3>
+
+  <div class="entry">
+    <div class="meta">2026</div>
+    <div class="title">RAG From First Principles &mdash; <a href="https://github.com/aashutosh-yadav">GitHub</a></div>
+    <div class="stack">Python, NumPy, FAISS (no LangChain)</div>
     <p>
-      Links:
-      [<a href="mailto:yadavashutoshh01@gmail.com">Email</a>]
-      [<a href="https://github.com/aashutosh-yadav">GitHub</a>]
-      [<a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">LinkedIn</a>]
+      Built retrieval-augmented generation from scratch &mdash; chunking,
+      embeddings, cosine similarity search, and re-ranking &mdash; without
+      a framework, to understand what LangChain is actually hiding.
     </p>
+  </div>
 
-    <h2>Selected Work</h2>
-
-    <div class="entry">
-      <div class="meta">2025 &ndash; 2026</div>
-      <div class="title">High-Performance URL Shortener &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a></div>
-      <div class="stack">Python, FastAPI, PostgreSQL, Redis, Docker</div>
-      <p>
-        Built a read-heavy backend to understand performance in practice. Got
-        it to ~1900 req/sec at ~50ms latency under 100 concurrent users. The
-        surprising finding: adding Redis made things <em>slower</em> because
-        the database wasn't the bottleneck &mdash; worker contention was.
-        Multi-worker scaling improved throughput ~6x. Load tested up to 500
-        concurrent users and mapped where the system saturates (~2500 RPS).
-      </p>
-    </div>
-
-    <div class="entry">
-      <div class="meta">2026 &ndash; Present</div>
-      <div class="title">Onscreen &mdash; AI Desktop Assistant &mdash; <a href="https://github.com/aashutosh-yadav">GitHub</a></div>
-      <div class="stack">Electron, TypeScript, React, Python, FastAPI, LiteLLM</div>
-      <p>
-        A two-process, screen-aware AI desktop assistant: an Electron/React
-        overlay frontend paired with a Python FastAPI backend for instant
-        desktop context analysis. Implemented XDG Desktop Portal screenshot
-        capture for GNOME 49 on Wayland with no external dependencies, and
-        integrated LiteLLM for provider-agnostic routing across Groq,
-        Anthropic Claude, GPT-4o, and local Ollama models.
-      </p>
-    </div>
-
-    <div class="entry">
-      <div class="meta">2026</div>
-      <div class="title">Learnlense &mdash; Intelligent Video Summarization &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a></div>
-      <div class="stack">Python, FastAPI, LLaMA 3.3 70B, Whisper ASR, LiteLLM</div>
-      <p>
-        An AI pipeline that turns a YouTube video or MP4 into a summary, mind
-        map, and Q&amp;A chatbot. Transcription via Faster-Whisper, generation
-        via LLaMA 3.3 70B through Groq, with an automatic fallback chain
-        (Groq &rarr; Gemini &rarr; Ollama) so it stays up if a provider goes
-        down. 70% semantic accuracy, sub-3-minute processing on CPU only.
-      </p>
-    </div>
-
-
-    <h2>Skills</h2>
-
-    <div class="skills-row"><span class="label">Languages:</span> Python / C++ / Go / SQL / TypeScript / Bash</div>
-    <div class="skills-row"><span class="label">Backend & Systems:</span> REST APIs / Algorithm Design / System Design</div>
-    <div class="skills-row"><span class="label">Databases:</span> PostgreSQL / SQLite / Redis</div>
-    <div class="skills-row"><span class="label">Tools:</span> Git / GitHub / Docker / Postman / Nginx / Linux</div>
-
-  </section>
-
-  <section id="about">
-    <h2>About</h2>
-
+  <div class="entry">
+    <div class="meta">2026</div>
+    <div class="title">Learnlense &mdash; Intelligent Video Summarization &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a></div>
+    <div class="stack">Python, FastAPI, LLaMA 3.3 70B, Whisper ASR, LiteLLM</div>
     <p>
-      I spend most of my time thinking about backend systems &mdash; not just
-      making them work, but understanding <em>why</em> they break. Caching
-      doesn't always help. Adding workers isn't always the answer. I want to
-      know when and why.
+      An AI pipeline that turns a YouTube video or MP4 into a summary, mind
+      map, and Q&amp;A chatbot. Transcription via Faster-Whisper, generation
+      via LLaMA 3.3 70B through Groq, with an automatic fallback chain
+      (Groq &rarr; Gemini &rarr; Ollama) so it stays up if a provider goes
+      down. 70% semantic accuracy, sub-3-minute processing on CPU only.
     </p>
+  </div>
 
+  <div class="entry">
+    <div class="meta">2026 &ndash; Present</div>
+    <div class="title">Onscreen &mdash; AI Desktop Assistant &mdash; <a href="https://github.com/aashutosh-yadav">GitHub</a></div>
+    <div class="stack">Electron, TypeScript, React, Python, FastAPI, LiteLLM</div>
     <p>
-      Recently I've been going deeper into how databases and application
-      servers interact under concurrency &mdash; connection pooling, queueing
-      effects, saturation points. The gap between "it works" and "it works at
-      scale" is where I like to dig.
+      A two-process, screen-aware AI desktop assistant: an Electron/React
+      overlay frontend paired with a Python FastAPI backend for instant
+      desktop context analysis. Implemented XDG Desktop Portal screenshot
+      capture for GNOME 49 on Wayland with no external dependencies, and
+      integrated LiteLLM for provider-agnostic routing across Groq,
+      Anthropic Claude, GPT-4o, and local Ollama models.
     </p>
+  </div>
 
-    <h2>Education</h2>
+  <h3>Backend & Systems <span class="count">&mdash; performance, infra</span></h3>
 
-    <div class="entry">
-      <div class="meta">2022 &ndash; 2026</div>
-      <div class="title">B.Tech in Computer Engineering</div>
-      <div class="stack">University of Pune &mdash; SPPU, Pune, Maharashtra</div>
-    </div>
-
-    <h2>Interests</h2>
-
+  <div class="entry">
+    <div class="meta">2025 &ndash; 2026</div>
+    <div class="title">High-Performance URL Shortener &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a></div>
+    <div class="stack">Python, FastAPI, PostgreSQL, Redis, Docker</div>
     <p>
-      I find distributed systems papers genuinely interesting to read. I
-      enjoy breaking things in a controlled environment and fixing them.
-      Currently reading more about consensus algorithms and storage engines.
+      Built a read-heavy backend to understand performance in practice. Got
+      it to ~1900 req/sec at ~50ms latency under 100 concurrent users. The
+      surprising finding: adding Redis made things <em>slower</em> because
+      the database wasn't the bottleneck &mdash; worker contention was.
+      Multi-worker scaling improved throughput ~6x. Load tested up to 500
+      concurrent users and mapped where the system saturates (~2500 RPS).
     </p>
-  </section>
+  </div>
 
-  <hr>
+  <!--
+    Blank category template &mdash; copy this whole block (h3 + one
+    entry) when you start a new area, e.g. "Systems Programming",
+    "Tools & Experiments", "Distributed Systems".
 
-  <footer>
-    <p>Contact: yadavashutoshh01 [at] gmail [dot] com &nbsp;|&nbsp;</p>
+  <h3>Category Name <span class="count">&mdash; short description</span></h3>
+
+  <div class="entry">
+    <div class="meta">2026</div>
+    <div class="title">Project Name &mdash; <a href="LINK">GitHub</a></div>
+    <div class="stack">Tech, Stack, Here</div>
     <p>
-      [<a href="https://github.com/aashutosh-yadav">GitHub</a>]
-      [<a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">LinkedIn</a>]
+      One or two sentences: what you built, what you were trying to
+      understand, and the one surprising thing you learned.
     </p>
-    <p>&copy; 2026 Ashutosh Yadav</p>
-  </footer>
+  </div>
+  -->
+
+</section>
+
+<section id="about">
+  <h2>About</h2>
+  <p>
+    I spend most of my time thinking about backend systems &mdash; not just
+    making them work, but understanding <em>why</em> they break. Caching
+    doesn't always help. Adding workers isn't always the answer. I want to
+    know when and why.
+  </p>
+  <p>
+    Recently I've been going deeper into how databases and application
+    servers interact under concurrency &mdash; connection pooling, queueing
+    effects, saturation points. The gap between "it works" and "it works at
+    scale" is where I like to dig.
+  </p>
+
+  <h2>Education</h2>
+  <div class="entry">
+    <div class="meta">2022 &ndash; 2026</div>
+    <div class="title">B.Tech in Computer Engineering</div>
+    <div class="stack">University of Pune &mdash; SPPU, Pune, Maharashtra</div>
+  </div>
+
+  <h2>Interests</h2>
+  <p>
+    I find distributed systems papers genuinely interesting to read. I
+    enjoy breaking things in a controlled environment and fixing them.
+    Currently reading more about consensus algorithms and storage engines.
+  </p>
+</section>
+
+<hr>
+
+<footer>
+  <p>Contact: yadavashutoshh01 [at] gmail [dot] com &nbsp;|&nbsp;</p>
+  <p>
+    [<a href="https://github.com/aashutosh-yadav">GitHub</a>]
+    [<a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">LinkedIn</a>]
+  </p>
+  <p>&copy; 2026 Ashutosh Yadav</p>
+</footer>
 
 </div>
 
 <script>
-  // Highlight the nav link for whichever section is currently in view
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
-  var sections = navLinks.map(function (link) {
-    return document.getElementById(link.dataset.tab);
+// Highlight the nav link for whichever section is currently in view
+var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
+var sections = navLinks.map(function (link) {
+  return document.getElementById(link.dataset.tab);
+});
+
+function setActiveFromScroll() {
+  var scrollPos = window.scrollY + 80;
+  var current = sections[0];
+  sections.forEach(function (sec) {
+    if (sec.offsetTop <= scrollPos) current = sec;
   });
-
-  function setActiveFromScroll() {
-    var scrollPos = window.scrollY + 80;
-    var current = sections[0];
-    sections.forEach(function (sec) {
-      if (sec.offsetTop <= scrollPos) current = sec;
-    });
-    navLinks.forEach(function (link) {
-      link.classList.toggle('active', link.dataset.tab === current.id);
-    });
-  }
-
-  window.addEventListener('scroll', setActiveFromScroll);
-  setActiveFromScroll();
+  navLinks.forEach(function (link) {
+    link.classList.toggle('active', link.dataset.tab === current.id);
+  });
+}
+window.addEventListener('scroll', setActiveFromScroll);
+setActiveFromScroll();
 </script>
-
 </body>
 </html>
