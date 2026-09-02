@@ -202,16 +202,19 @@ footer p { margin-bottom: 6px; }
     ============================================================
   -->
 
-  <h3>AI / LLM <span class="count">&mdash; RAG, agents, pipelines</span></h3>
+  <h3>Serious Projects <span class="count">&mdash; built to last, used for something real</span></h3>
 
   <div class="entry">
-    <div class="meta">2026</div>
-    <div class="title">RAG From First Principles &mdash; <a href="https://github.com/aashutosh-yadav">GitHub</a></div>
-    <div class="stack">Python, NumPy, FAISS (no LangChain)</div>
+    <div class="meta">2025 &ndash; 2026</div>
+    <div class="title">High-Performance URL Shortener &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a></div>
+    <div class="stack">Python, FastAPI, PostgreSQL, Redis, Docker</div>
     <p>
-      Built retrieval-augmented generation from scratch &mdash; chunking,
-      embeddings, cosine similarity search, and re-ranking &mdash; without
-      a framework, to understand what LangChain is actually hiding.
+      Built a read-heavy backend to understand performance in practice. Got
+      it to ~1900 req/sec at ~50ms latency under 100 concurrent users. The
+      surprising finding: adding Redis made things <em>slower</em> because
+      the database wasn't the bottleneck &mdash; worker contention was.
+      Multi-worker scaling improved throughput ~6x. Load tested up to 500
+      concurrent users and mapped where the system saturates (~2500 RPS).
     </p>
   </div>
 
@@ -242,28 +245,25 @@ footer p { margin-bottom: 6px; }
     </p>
   </div>
 
-  <h3>Backend & Systems <span class="count">&mdash; performance, infra</span></h3>
+  <!-- Newest "Serious" entry goes at the TOP of this list, just under the h3 above. -->
+
+  <h3>Fun Projects <span class="count">&mdash; daily builds, learning by rebuilding</span></h3>
 
   <div class="entry">
-    <div class="meta">2025 &ndash; 2026</div>
-    <div class="title">High-Performance URL Shortener &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a></div>
-    <div class="stack">Python, FastAPI, PostgreSQL, Redis, Docker</div>
+    <div class="meta">2026</div>
+    <div class="title">RAG From First Principles &mdash; <a href="https://github.com/aashutosh-yadav">GitHub</a></div>
+    <div class="stack">Python, NumPy, FAISS (no LangChain)</div>
     <p>
-      Built a read-heavy backend to understand performance in practice. Got
-      it to ~1900 req/sec at ~50ms latency under 100 concurrent users. The
-      surprising finding: adding Redis made things <em>slower</em> because
-      the database wasn't the bottleneck &mdash; worker contention was.
-      Multi-worker scaling improved throughput ~6x. Load tested up to 500
-      concurrent users and mapped where the system saturates (~2500 RPS).
+      Built retrieval-augmented generation from scratch &mdash; chunking,
+      embeddings, cosine similarity search, and re-ranking &mdash; without
+      a framework, to understand what LangChain is actually hiding.
     </p>
   </div>
 
-  <!--
-    Blank category template &mdash; copy this whole block (h3 + one
-    entry) when you start a new area, e.g. "Systems Programming",
-    "Tools & Experiments", "Distributed Systems".
+  <!-- Newest "Fun" entry goes at the TOP of this list, just under the h3 above. -->
 
-  <h3>Category Name <span class="count">&mdash; short description</span></h3>
+  <!--
+    Copy-paste template for a new entry (either section):
 
   <div class="entry">
     <div class="meta">2026</div>
