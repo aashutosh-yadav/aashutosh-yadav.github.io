@@ -181,25 +181,28 @@ footer p { margin-bottom: 6px; }
 <section id="projects">
   <h1>Projects</h1>
   <p class="intro-line">
-    I build something small most days &mdash; often re-implementing a
-    concept from first principles to see how it actually works underneath.
-    Grouped by area below.
+    Two shelves. One for things I built to actually last, one for things I
+    built just to see how they work. Newest first in both.
   </p>
 
   <!--
     ============================================================
     HOW TO ADD A NEW PROJECT (do this daily, takes ~30 seconds):
-    1. Find the right category h3 below (or add a new one, see
-       the block at the very bottom for a blank category).
-    2. Copy one <div class="entry">...</div> block.
-    3. Paste it as the FIRST entry under that category's h3
+    1. Decide: Serious or Fun.
+    2. Copy one <div class="entry">...</div> block from that
+       section (or the blank template at the very bottom).
+    3. Paste it as the FIRST entry under that section's h3
        (newest on top).
     4. Edit: meta (date), title + link, stack, and the paragraph.
     5. Save, git add / commit / push. GitHub Pages updates itself.
     ============================================================
   -->
 
-  <h3>Serious Projects <span class="count">&mdash; built to last, used for something real</span></h3>
+  <h3>Serious Projects <span class="count">&mdash; built to last</span></h3>
+  <p class="intro-line">
+    Things I've maintained past the first working version &mdash; load
+    tested, broken on purpose, fixed properly.
+  </p>
 
   <div class="entry">
     <div class="meta">2025 &ndash; 2026</div>
@@ -212,19 +215,6 @@ footer p { margin-bottom: 6px; }
       the database wasn't the bottleneck &mdash; worker contention was.
       Multi-worker scaling improved throughput ~6x. Load tested up to 500
       concurrent users and mapped where the system saturates (~2500 RPS).
-    </p>
-  </div>
-
-  <div class="entry">
-    <div class="meta">2026</div>
-    <div class="title">Learnlense &mdash; Intelligent Video Summarization &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a></div>
-    <div class="stack">Python, FastAPI, LLaMA 3.3 70B, Whisper ASR, LiteLLM</div>
-    <p>
-      An AI pipeline that turns a YouTube video or MP4 into a summary, mind
-      map, and Q&amp;A chatbot. Transcription via Faster-Whisper, generation
-      via LLaMA 3.3 70B through Groq, with an automatic fallback chain
-      (Groq &rarr; Gemini &rarr; Ollama) so it stays up if a provider goes
-      down. 70% semantic accuracy, sub-3-minute processing on CPU only.
     </p>
   </div>
 
@@ -242,9 +232,26 @@ footer p { margin-bottom: 6px; }
     </p>
   </div>
 
-  <!-- Newest "Serious" entry goes at the TOP of this list, just under the h3 above. -->
+  <!-- Newest "Serious" entry goes at the TOP of this list, just under the intro-line above. -->
 
-  <h3>Fun Projects <span class="count">&mdash; daily builds, learning by rebuilding</span></h3>
+  <h3>Fun Projects <span class="count">&mdash; built to learn</span></h3>
+  <p class="intro-line">
+    Small, often finished in a day. Usually me re-implementing something
+    well-known from scratch just to see the gears turn.
+  </p>
+
+  <div class="entry">
+    <div class="meta">2026</div>
+    <div class="title">Learnlense &mdash; Intelligent Video Summarization &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a></div>
+    <div class="stack">Python, FastAPI, LLaMA 3.3 70B, Whisper ASR, LiteLLM</div>
+    <p>
+      An AI pipeline that turns a YouTube video or MP4 into a summary, mind
+      map, and Q&amp;A chatbot. Transcription via Faster-Whisper, generation
+      via LLaMA 3.3 70B through Groq, with an automatic fallback chain
+      (Groq &rarr; Gemini &rarr; Ollama) so it stays up if a provider goes
+      down. 70% semantic accuracy, sub-3-minute processing on CPU only.
+    </p>
+  </div>
 
   <div class="entry">
     <div class="meta">2026</div>
@@ -257,7 +264,7 @@ footer p { margin-bottom: 6px; }
     </p>
   </div>
 
-  <!-- Newest "Fun" entry goes at the TOP of this list, just under the h3 above. -->
+  <!-- Newest "Fun" entry goes at the TOP of this list, just under the intro-line above. -->
 
   <!--
     Copy-paste template for a new entry (either section):
@@ -278,30 +285,13 @@ footer p { margin-bottom: 6px; }
 <section id="about">
   <h2>About</h2>
   <p>
-    I spend most of my time thinking about backend systems &mdash; not just
-    making them work, but understanding <em>why</em> they break. Caching
-    doesn't always help. Adding workers isn't always the answer. I want to
-    know when and why.
-  </p>
-  <p>
-    Recently I've been going deeper into how databases and application
-    servers interact under concurrency &mdash; connection pooling, queueing
-    effects, saturation points. The gap between "it works" and "it works at
-    scale" is where I like to dig.
+    building projects ,learning more about computers, hacking, physics, mathematics.
   </p>
 
-  <h2>Education</h2>
-  <div class="entry">
-    <div class="meta">2022 &ndash; 2026</div>
-    <div class="title">B.Tech in Computer Engineering</div>
-    <div class="stack">University of Pune &mdash; SPPU, Pune, Maharashtra</div>
-  </div>
-
+  
   <h2>Interests</h2>
   <p>
-    I find distributed systems papers genuinely interesting to read. I
-    enjoy breaking things in a controlled environment and fixing them.
-    Currently reading more about consensus algorithms and storage engines.
+    computers 
   </p>
 </section>
 
