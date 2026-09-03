@@ -137,6 +137,7 @@ footer p { margin-bottom: 6px; }
 <nav>
   <a href="#home" class="nav-link active" data-tab="home">Ashutosh Yadav</a>
   <a href="#projects" class="nav-link" data-tab="projects">Projects</a>
+  <a href="#writings" class="nav-link" data-tab="writings">Writings</a>
   <a href="#about" class="nav-link" data-tab="about">About</a>
 </nav>
 
@@ -148,13 +149,6 @@ footer p { margin-bottom: 6px; }
   </p>
 
   <p><a href="#projects">See everything I've built &rarr;</a></p>
-
-  <h2>Skills</h2>
-  <div class="skills-row"><span class="label">Languages:</span> Python / C++ / Go / C / Bash</div>
-  <div class="skills-row"><span class="label">Backend & Systems:</span> REST APIs / Algorithm & Data Structures / System Design</div>
-  <div class="skills-row"><span class="label">Databases:</span> PostgreSQL / SQLite / Redis</div>
-  <div class="skills-row"><span class="label">Tools:</span> Git / GitHub / Docker / Postman / Nginx / Linux</div>
-</section>
 
 <section id="projects">
   <h1>Projects</h1>
@@ -254,6 +248,54 @@ footer p { margin-bottom: 6px; }
     <p>
       One or two sentences: what you built, what you were trying to
       understand, and the one surprising thing you learned.
+    </p>
+  </div>
+  -->
+
+</section>
+
+<section id="writings">
+  <h1>Writings</h1>
+  <p class="intro-line">
+    Notes and long-form breakdowns, usually written right after I finish
+    building something. Newest first.
+  </p>
+
+  <!--
+    ============================================================
+    HOW TO ADD A NEW WRITING (same pattern as Projects):
+    1. Copy one <div class="entry">...</div> block below (or the
+       blank template at the bottom of this section).
+    2. Paste it as the FIRST entry, just under the intro-line.
+    3. Edit: meta (date), title + link, tags, and the paragraph.
+    4. Save, git add / commit / push. GitHub Pages updates itself.
+    ============================================================
+  -->
+
+  <div class="entry">
+    <div class="meta">Sep 2026 &middot; 9 min read</div>
+    <div class="title">Building RAG From First Principles (No LangChain, No Vector DB, No Magic) &mdash; <a href="https://medium.com/@yadavashutoshh01/building-rag-from-first-principles-no-langchain-no-vector-db-no-magic-fb90d97dfb3a">Medium</a></div>
+    <div class="stack">Python, TF-IDF, Cosine Similarity, RAG</div>
+    <p>
+      A walkthrough of implementing a full retrieval-augmented generation
+      pipeline &mdash; chunking, TF-IDF vectorization, cosine similarity
+      search, and prompt augmentation &mdash; using nothing but plain
+      Python, to make visible what frameworks like LangChain and hosted
+      vector databases usually hide.
+    </p>
+  </div>
+
+  <!-- Newest entry goes at the TOP of this list, just under the intro-line above. -->
+
+  <!--
+    Copy-paste template for a new entry:
+
+  <div class="entry">
+    <div class="meta">Month Year &middot; N min read</div>
+    <div class="title">Post Title &mdash; <a href="LINK">Medium</a></div>
+    <div class="stack">Tags, Here</div>
+    <p>
+      One or two sentences on what the post covers and why you wrote it.
     </p>
   </div>
   -->
