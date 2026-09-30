@@ -192,7 +192,15 @@ footer p { margin-bottom: 6px; }
     </p>
   </div>
 
-  <div class="entry">
+  <!-- Newest "Serious" entry goes at the TOP of this list, just under the intro-line above. -->
+
+  <h3>Fun Projects <span class="count">&mdash; built to learn</span></h3>
+  <p class="intro-line">
+    Small, often finished in a day. Usually me re-implementing something
+    well-known from scratch just to see the gears turn.
+  </p>
+
+   <div class="entry">
     <div class="title">Onscreen &mdash; AI Desktop Assistant &mdash; <a href="https://github.com/aashutosh-yadav">GitHub</a></div>
     <div class="stack">Electron, TypeScript, React, Python, FastAPI, LiteLLM</div>
     <p>
@@ -202,26 +210,6 @@ footer p { margin-bottom: 6px; }
       capture for GNOME 49 on Wayland with no external dependencies, and
       integrated LiteLLM for provider-agnostic routing across Groq,
       Anthropic Claude, GPT-4o, and local Ollama models.
-    </p>
-  </div>
-
-  <!-- Newest "Serious" entry goes at the TOP of this list, just under the intro-line above. -->
-
-  <h3>Fun Projects <span class="count">&mdash; built to learn</span></h3>
-  <p class="intro-line">
-    Small, often finished in a day. Usually me re-implementing something
-    well-known from scratch just to see the gears turn.
-  </p>
-
-  <div class="entry">
-    <div class="title">Learnlense &mdash; Intelligent Video Summarization &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a></div>
-    <div class="stack">Python, FastAPI, LLaMA 3.3 70B, Whisper ASR, LiteLLM</div>
-    <p>
-      An AI pipeline that turns a YouTube video or MP4 into a summary, mind
-      map, and Q&amp;A chatbot. Transcription via Faster-Whisper, generation
-      via LLaMA 3.3 70B through Groq, with an automatic fallback chain
-      (Groq &rarr; Gemini &rarr; Ollama) so it stays up if a provider goes
-      down. 70% semantic accuracy, sub-3-minute processing on CPU only.
     </p>
   </div>
 
