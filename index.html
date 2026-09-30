@@ -165,7 +165,7 @@ footer p { margin-bottom: 6px; }
        section (or the blank template at the very bottom).
     3. Paste it as the FIRST entry under that section's h3
        (newest on top).
-    4. Edit: meta (date), title + link, stack, and the paragraph.
+    4. Edit: title + link, stack, and the paragraph.
     5. Save, git add / commit / push. GitHub Pages updates itself.
     ============================================================
   -->
@@ -177,21 +177,22 @@ footer p { margin-bottom: 6px; }
   </p>
 
   <div class="entry">
-    <div class="meta">2025 &ndash; 2026</div>
     <div class="title">High-Performance URL Shortener &mdash; <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a></div>
-    <div class="stack">Python, FastAPI, PostgreSQL, Redis, Docker</div>
+    <div class="stack">Python, FastAPI, PostgreSQL, Redis, asyncio</div>
     <p>
-      Built a read-heavy backend to understand performance in practice. Got
-      it to ~1900 req/sec at ~50ms latency under 100 concurrent users. The
-      surprising finding: adding Redis made things <em>slower</em> because
-      the database wasn't the bottleneck &mdash; worker contention was.
-      Multi-worker scaling improved throughput ~6x. Load tested up to 500
-      concurrent users and mapped where the system saturates (~2500 RPS).
+      A fully async, multi-level-cached (in-process LRU + Redis) redirect
+      service &mdash; but the real work was trying to break it. Found and
+      fixed a cache-read bug that was silently forcing every request to
+      Postgres (~4x throughput after the fix), then a thread-pool collapse
+      under load that a full async rewrite eliminated entirely. Measured
+      ~20,400 req/sec on cache-hit traffic and ~3,500 req/sec on guaranteed
+      cache misses &mdash; the cold-path number surfaced a PostgreSQL
+      connection-pool exhaustion bug that cache-hit load testing alone could
+      never have found.
     </p>
   </div>
 
   <div class="entry">
-    <div class="meta">2026 &ndash; Present</div>
     <div class="title">Onscreen &mdash; AI Desktop Assistant &mdash; <a href="https://github.com/aashutosh-yadav">GitHub</a></div>
     <div class="stack">Electron, TypeScript, React, Python, FastAPI, LiteLLM</div>
     <p>
@@ -213,7 +214,6 @@ footer p { margin-bottom: 6px; }
   </p>
 
   <div class="entry">
-    <div class="meta">2026</div>
     <div class="title">Learnlense &mdash; Intelligent Video Summarization &mdash; <a href="https://github.com/aashutosh-yadav/LearnLense">GitHub</a></div>
     <div class="stack">Python, FastAPI, LLaMA 3.3 70B, Whisper ASR, LiteLLM</div>
     <p>
@@ -226,7 +226,6 @@ footer p { margin-bottom: 6px; }
   </div>
 
   <div class="entry">
-    <div class="meta">2026</div>
     <div class="title">RAG From First Principles &mdash; <a href="https://github.com/aashutosh-yadav">GitHub</a></div>
     <div class="stack">Python, NumPy, FAISS (no LangChain)</div>
     <p>
@@ -242,7 +241,6 @@ footer p { margin-bottom: 6px; }
     Copy-paste template for a new entry (either section):
 
   <div class="entry">
-    <div class="meta">2026</div>
     <div class="title">Project Name &mdash; <a href="LINK">GitHub</a></div>
     <div class="stack">Tech, Stack, Here</div>
     <p>
