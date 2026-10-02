@@ -34,6 +34,10 @@
   </p>
 
   <hr>
+  
+  <h3>SKills</h3>
+
+  <p>python , go , cpp , fastapi , redis , docker , git</p>
 
   <h3>Selected Work</h3>
 
@@ -52,14 +56,7 @@
   </p>
 
   <p>
-    A fully async, multi-level-cached (in-process LRU + Redis) redirect
-    service — but the real work was trying to break it. Found and fixed a
-    cache-read bug that was silently forcing every request to Postgres
-    (~4x throughput after the fix), then a thread-pool collapse under load
-    that a full async rewrite eliminated entirely. Measured ~20,400 req/sec
-    on cache-hit traffic and ~3,500 req/sec on guaranteed cache misses — the
-    cold-path number surfaced a PostgreSQL connection-pool exhaustion bug
-    that cache-hit load testing alone could never have found.
+   A fully async URL shortener with in-process LRU and Redis caching. Load testing exposed cache and thread-pool bottlenecks, which I fixed through cache-path optimization and a full async rewrite. Reached ~20,400 req/sec on cache hits and ~3,500 req/sec on cache misses.
   </p>
 
   <h2>Writings</h2>
