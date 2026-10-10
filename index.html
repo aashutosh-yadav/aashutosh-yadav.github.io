@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,11 +50,38 @@
   </p>
 
   <p>
-   A fully async URL shortener with in-process LRU and Redis caching. Load testing exposed cache and thread-pool bottlenecks, which I fixed through cache-path optimization and a full async rewrite. Reached ~20,400 req/sec on cache hits and ~3,500 req/sec on cache misses.
-   Metric's shown on the page are very different form the one's in benchmark's because of deplyment resources (free version) , u can check it out locally.
+    A fully async URL shortener with in-process LRU and Redis caching. Load testing exposed cache and thread-pool bottlenecks, which I fixed through cache-path optimization and a full async rewrite. Reached ~20,400 req/sec on cache hits and ~3,500 req/sec on cache misses.
+    Metric's shown on the page are very different form the one's in benchmark's because of deplyment resources (free version) , u can check it out locally.
   </p>
 
   <hr>
+
+  <h4>
+    Distributed systems Projects from scratch -
+    <a href="https://github.com/aashutosh-yadav/distributed-systems">GitHub</a> |
+    <span>(In Progress)</span>
+  </h4>
+  <p>
+    Go
+  </p>
+
+  <p>
+    Implementing classic distributed-systems algorithms, papers, and concepts
+    from scratch, beginning with the MapReduce programming model described by
+    Dean and Ghemawat (2004).
+  </p>
+
+  <ul>
+    <li>
+      Single-process MapReduce: the three canonical phases (map, shuffle, reduce)
+      wired together in one in-memory word-count program.
+    </li>
+    <li>
+      MapReduce cluster simulation: a coordinator dispatches Map and Reduce tasks
+      to a pool of worker goroutines over channels, reusing the same workers for
+      both phases.
+    </li>
+  </ul>
 
   <h2>Writings</h2>
 
@@ -65,10 +93,10 @@
     </a>
   </h4>
 
-<h4>
+  <h4>
     High performance url shortner  - blog comming soon.
     </a>
-</h4>
+  </h4>
 
   <hr>
 
@@ -79,7 +107,7 @@
     physics, and mathematics.
   </p>
 
-<hr>
+  <hr>
 
   <h2>Interests</h2>
 
