@@ -66,20 +66,29 @@
   </p>
 
   <p>
-    Implementing classic distributed-systems algorithms, papers, and concepts
-    from scratch, beginning with the MapReduce programming model described by
-    Dean and Ghemawat (2004).
+    Implementing distributed-systems algorithms, papers, and concepts from
+    scratch, starting with the MapReduce programming model and how to simulate a
+    distributed system in Go at three levels — from goroutines inside a single
+    process up to isolated Docker containers.
   </p>
 
   <ul>
     <li>
-      Single-process MapReduce: the three canonical phases (map, shuffle, reduce)
-      wired together in one in-memory word-count program.
+      <strong>Level 1 — Goroutines (virtual nodes, single process):</strong>
+      each goroutine acts as a virtual node with its own local state and
+      communicates over Go channels instead of a network. All nodes share the
+      process's address space, so a crash terminates every node.
     </li>
     <li>
-      MapReduce cluster simulation: a coordinator dispatches Map and Reduce tasks
-      to a pool of worker goroutines over channels, reusing the same workers for
-      both phases.
+      <strong>Level 2 — Multiple OS processes on localhost:</strong>
+      the same program runs several times, each instance listening on its own TCP
+      port. Processes have independent memory spaces and communicate over the
+      loopback network, so one can crash without taking down the others.
+    </li>
+    <li>
+      <strong>Level 3 — Docker containers (isolated node environments):</strong>
+      each node runs in its own container with an isolated filesystem, process
+      environment, and network identity, managed with Docker Compose.
     </li>
   </ul>
 
