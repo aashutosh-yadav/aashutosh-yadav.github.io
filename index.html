@@ -1,115 +1,170 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ashutosh Yadav</title>
 
-  <title>Ashutosh Yadav</title>
+        <style>
+            body {
+                max-width: 1000px;
+                margin: 60px auto;
+                padding: 0 20px;
+                line-height: 1.7;
+            }
+        </style>
+    </head>
 
-  <style>
-    body {
-      max-width: 1000px;
-      margin: 60px auto;
-      padding: 0 20px;
-      line-height: 1.7;
-    }
-  </style>
+    <body>
+        <h1>Ashutosh Yadav</h1>
 
-</head>
+        <p>Computer Engineer</p>
 
-<body>
+        <p>
+            Computer engineer specializing in backend systems and performance
+            engineering, with a growing focus on distributed systems , and
+            databases. I enjoy diagnosing bottlenecks and building software that
+            holds up under load.
+        </p>
 
-  <h1>Ashutosh Yadav</h1>
+        <hr />
 
-  <p>Computer Engineer</p>
+        <h3>Skills</h3>
 
-  <p>
-    Computer engineer specializing in backend systems and performance engineering, with a growing focus on distributed systems , and databases. I enjoy diagnosing bottlenecks and building software that holds up under load.
-  </p>
+        <p>Python, Go, C++, FastAPI, Redis, Docker, Git</p>
 
-  <hr>
+        <hr />
 
-  <h3>Skills</h3>
+        <h3>Selected Work</h3>
 
-  <p>Python, Go, C++, FastAPI, Redis, Docker, Git</p>
+        <h4>
+            High-Performance URL Shortener —
+            <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a> |
+            <a
+                href="https://github.com/aashutosh-yadav/Infinity/blob/main/README.md"
+                >README</a
+            >
+            |
+            <a
+                href="https://github.com/aashutosh-yadav/Infinity/blob/main/BENCHMARK.md"
+                >Benchmarks</a
+            >
+            |
+            <a
+                href="https://infinity-vpko.onrender.com/"
+                target="_blank"
+                rel="noopener"
+                >Live Demo</a
+            >
+        </h4>
 
-  <hr>
+        <p>Python, FastAPI, PostgreSQL, Redis, asyncio</p>
 
-  <h3>Selected Work</h3>
+        <p>
+            A fully async URL shortener with in-process LRU and Redis caching.
+            Load testing exposed cache and thread-pool bottlenecks, which I
+            fixed through cache-path optimization and a full async rewrite.
+            Reached ~20,400 req/sec on cache hits and ~3,500 req/sec on cache
+            misses. Metrics shown on the page are very different from the ones
+            in the benchmarks because of deployment resources (free version);
+            for real numbers, you can check it out locally.
+        </p>
 
-  <h4>
-    High-Performance URL Shortener —
-    <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a> |
-    <a href="https://github.com/aashutosh-yadav/Infinity/blob/main/README.md">README</a> |
-    <a href="https://github.com/aashutosh-yadav/Infinity/blob/main/BENCHMARK.md">Benchmarks</a> |
-    <a href="https://infinity-vpko.onrender.com/" target="_blank" rel="noopener">Live Demo</a>
-  </h4>
+        <hr />
 
-  <p>
-    Python, FastAPI, PostgreSQL, Redis, asyncio
-  </p>
+        <h4>
+            Distributed systems Projects from scratch -
+            <a href="https://github.com/aashutosh-yadav/distributed-systems"
+                >GitHub</a
+            >
+            |
+            <span>(In Progress)</span>
+        </h4>
+        <p>Go</p>
 
-  <p>
-    A fully async URL shortener with in-process LRU and Redis caching. Load testing exposed cache and thread-pool bottlenecks, which I fixed through cache-path optimization and a full async rewrite. Reached ~20,400 req/sec on cache hits and ~3,500 req/sec on cache misses.
-    Metrics shown on the page are very different from the ones in the benchmarks because of deployment resources (free version); for real numbers, you can check it out locally.
-  </p>
+        <p>
+            Implementing distributed-systems algorithms, papers, and concepts
+            from scratch, starting with the MapReduce programming model and how
+            to simulate a distributed system in Go at three levels — from
+            goroutines inside a single process up to isolated Docker containers.
+        </p>
 
-  <hr>
+        <ul>
+            <li>
+                <strong
+                    >Level 1 — Goroutines (virtual nodes, single
+                    process):</strong
+                >
+                each goroutine acts as a virtual node with its own local state
+                and communicates over Go channels instead of a network. All
+                nodes share the process's address space, so a crash terminates
+                every node.
+            </li>
+            <li>
+                <strong>Level 2 — Multiple OS processes on localhost:</strong>
+                the same program runs several times, each instance listening on
+                its own TCP port. Processes have independent memory spaces and
+                communicate over the loopback network, so one can crash without
+                taking down the others.
+            </li>
+            <li>
+                <strong
+                    >Level 3 — Docker containers (isolated node
+                    environments):</strong
+                >
+                each node runs in its own container with an isolated filesystem,
+                process environment, and network identity, managed with Docker
+                Compose.
+            </li>
+        </ul>
 
-  <h2>Writings</h2>
+        <h2>Writings</h2>
 
-  <h4>
-    Building RAG From First Principles
-    (No LangChain, No Vector DB, No Magic) —
-    <a href="https://medium.com/@yadavashutoshh01/building-rag-from-first-principles-no-langchain-no-vector-db-no-magic-fb90d97dfb3a">
-      Medium
-    </a>
-  </h4>
+        <h4>
+            Building RAG From First Principles (No LangChain, No Vector DB, No
+            Magic) —
+            <a
+                href="https://medium.com/@yadavashutoshh01/building-rag-from-first-principles-no-langchain-no-vector-db-no-magic-fb90d97dfb3a"
+            >
+                Medium
+            </a>
+        </h4>
 
-  <h4>
-    High-performance URL shortener — blog coming soon.
-  </h4>
+        <h4>High-performance URL shortener — blog coming soon.</h4>
 
-  <hr>
+        <hr />
 
-  <h2>About</h2>
+        <h2>About</h2>
 
-  <p>
-    Just a guy who likes building, learning more about computers, hacking,
-    physics, and mathematics.
-  </p>
+        <p>
+            Just a guy who likes building, learning more about computers,
+            hacking, physics, and mathematics.
+        </p>
 
-  <hr>
+        <hr />
 
-  <h2>Interests</h2>
+        <h2>Interests</h2>
 
-  <p>
-    Computers, Engineering
-  </p>
+        <p>Computers, Engineering</p>
 
-  <hr>
+        <hr />
 
-  <h2>Contact</h2>
+        <h2>Contact</h2>
 
-  <p>
-    yadavashutoshwork [at] gmail [dot] com
-  </p>
+        <p>yadavashutoshwork [at] gmail [dot] com</p>
 
-  <p>
-    <a href="https://github.com/aashutosh-yadav">GitHub</a>
-  </p>
+        <p>
+            <a href="https://github.com/aashutosh-yadav">GitHub</a>
+        </p>
 
-  <p>
-    <a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">
-      LinkedIn
-    </a>
-  </p>
+        <p>
+            <a href="https://www.linkedin.com/in/ashutosh-yadav-2a186b260/">
+                LinkedIn
+            </a>
+        </p>
 
-  <p>
-    © 2026 Ashutosh Yadav
-  </p>
-
-</body>
+        <p>© 2026 Ashutosh Yadav</p>
+    </body>
 </html>
