@@ -75,25 +75,18 @@
         <hr />
 
         <h4>
-            Postgres-Backed Job Scheduler —
-            <a href="https://github.com/aashutosh-yadav/job-queue">GitHub</a>
-            |
-            <a href="https://github.com/aashutosh-yadav/job-queue/blob/main/README.md"
-                >README</a
-            >
+            Message queue -- 
+            <a href="https://github.com/aashutosh-yadav/message-queue">GitHub</a>
         </h4>
 
-        <p>Go, PostgreSQL, Redis, pgx</p>
+        <p>Go, , Redis, goroutines</p>
 
         <p>
-            A job scheduler where PostgreSQL is the source of truth and Redis is
-            only the transport between the scheduler and the workers. An API
-            process accepts jobs, a scheduler polls for due jobs and pushes their
-            IDs onto a Redis list, and worker goroutines claim them atomically
-            with <code>UPDATE ... RETURNING</code>, which also makes duplicate IDs
-            in the queue safe. Failed jobs are retried with a delay until their
-            retry budget runs out, while payload, status, retry count, and error
-            message stay persisted in PostgreSQL.
+          A message queue built with Go and Redis. 
+          An API takes messages and replies right away, and 5 workers 
+          process them in the background. Messages are kept until they 
+          are done, so they are not lost if a worker crashes, and failed 
+          messages are retried up to 3 times before going to a failed-messages list.
         </p>
 
         <h2>Writings</h2>
