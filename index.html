@@ -75,18 +75,19 @@
         <hr />
 
         <h4>
-            Message queue -- 
-            <a href="https://github.com/aashutosh-yadav/message-queue">GitHub</a>
+            Job queue --
+            <a href="https://github.com/aashutosh-yadav/job-queue">GitHub</a>
         </h4>
 
         <p>Go, Redis, goroutines</p>
 
         <p>
-          A message queue built with Go and Redis. 
-          An API takes messages and replies right away, and 5 workers 
-          process them in the background. Messages are kept until they 
-          are done, so they are not lost if a worker crashes, and failed 
-          messages are retried up to 3 times before going to a failed-messages list.
+          A distributed job queue built with Go and Redis. An API accepts
+          send_email, resize_image, and generate_pdf jobs and replies
+          immediately; separate worker processes claim them into a processing
+          list and simulate the work. Jobs are acknowledged when finished, and
+          failures are retried once (two attempts total) before moving to a
+          dead list.
         </p>
 
         <h2>Writings</h2>
