@@ -1,425 +1,496 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Understanding Leader Election and Log Replication in Raft</title>
+</head>
+<body>
 
-        <title>Understanding Leader Election and Log Replication in Raft</title>
-        <meta
-            name="description"
-            content="An intuitive explanation of leader election and log replication in the Raft consensus algorithm."
-        />
+<h1>Understanding Leader Election and Log Replication in Raft</h1>
 
-        <style>
-            body {
-                max-width: 1000px;
-                margin: 60px auto;
-                padding: 0 20px;
-                line-height: 1.7;
-            }
+<p>I was reading the Raft paper and wanted to write about its two main components: <strong>leader election</strong> and <strong>log replication</strong>. This blog explains both in a super intuitive way.</p>
 
-            pre {
-                background: #f6f8fa;
-                padding: 12px 16px;
-                overflow-x: auto;
-            }
+<p>The original research paper is here: <a href="https://raft.github.io/raft.pdf">In Search of an Understandable Consensus Algorithm</a>.</p>
 
-            code {
-                background: #f6f8fa;
-                padding: 2px 4px;
-            }
+<h2>What is consensus?</h2>
+<p>Consensus helps multiple computers agree on one correct answer without depending on a single central computer.</p>
 
-            pre code {
-                padding: 0;
-            }
+<h2>Why do we need a consensus algorithm?</h2>
+<p>Because the main job of Raft is log replication (data replication), and the logs must stay consistent across all servers.</p>
+<p>The paper mentions that Raft was invented because the first popular consensus algorithm (Paxos) was hard to understand. After designing Raft, the authors also asked students which one was easier to understand, and the majority answered Raft.</p>
 
-            table {
-                border-collapse: collapse;
-                margin: 16px 0;
-            }
+<h2>Basic concepts</h2>
+<p>Before going directly into the algorithm, let&rsquo;s understand a few concepts that will help us see how Raft works:</p>
+<ul>
+  <li>State machine</li>
+  <li>Log</li>
+  <li>Replicated log</li>
+  <li>Leader, follower, candidate</li>
+  <li>Term</li>
+</ul>
 
-            th,
-            td {
-                text-align: left;
-            }
-        </style>
-    </head>
+<h3>State machine</h3>
+<p>A state machine is simply a program that executes commands in the same order on all servers (nodes) so that every server maintains the same data. By &ldquo;simple program&rdquo; I just mean a piece of code that takes an instruction, performs an operation and updates stored data.</p>
 
-    <body>
-        <p><a href="index.html">&larr; Home</a></p>
+<h3>Log</h3>
+<p>A log is a list of commands stored on the local storage of each server.</p>
 
-        <h1>Understanding Leader Election and Log Replication in Raft</h1>
+<h3>Replicated log</h3>
+<p>The main job of Raft is to replicate data, and that data is the log. Replication means the data is stored on different machines to avoid a single point of failure.</p>
 
-        <p>
-            I was reading the Raft paper and wanted to write about its two main
-            components: <strong>leader election</strong> and
-            <strong>log replication</strong>. This blog explains both in a super
-            intuitive way.
-        </p>
+<h3>Leader</h3>
+<p>There are multiple servers (nodes) in a distributed system, and one of them manages the incoming flow of commands and transfers them to all the other servers. That server is the <strong>leader</strong>.</p>
 
-        <p>
-            The original research paper is here:
-            <a href="https://raft.github.io/raft.pdf"
-                >In Search of an Understandable Consensus Algorithm</a
-            >.
-        </p>
+<h3>Follower</h3>
+<p>Followers are the nodes connected to the leader. They follow the leader&rsquo;s instructions.</p>
 
-        <h2>What is consensus?</h2>
-        <p>
-            Consensus helps multiple computers agree on one correct answer
-            without depending on a single central computer.
-        </p>
+<h3>Candidate</h3>
+<p>A candidate is a server that takes part in an election, just like in a normal election.</p>
 
-        <h2>Why do we need a consensus algorithm?</h2>
-        <p>
-            Because the main job of Raft is log replication (data replication),
-            and the logs must stay consistent across all servers.
-        </p>
-        <p>
-            The paper mentions that Raft was invented because the first popular
-            consensus algorithm (Paxos) was hard to understand. After designing
-            Raft, the authors also asked students which one was easier to
-            understand, and the majority answered Raft.
-        </p>
+<h3>Term</h3>
+<p>Think of a simple election. When a candidate is elected president, they serve a term, and if it is their first time as president, it is their first term. That&rsquo;s all a term is. In Raft, time is divided into terms, and each term begins with an election.</p>
 
-        <h2>Basic concepts</h2>
-        <p>
-            Before going directly into the algorithm, let&rsquo;s understand a
-            few concepts that will help us see how Raft works:
-        </p>
-        <ul>
-            <li>State machine</li>
-            <li>Log</li>
-            <li>Replicated log</li>
-            <li>Leader, follower, candidate</li>
-            <li>Term</li>
-        </ul>
+<h4>Why does every server maintain a current term number?</h4>
+<p>Imagine there are 5 servers (S1, S2, S3, S4, S5):</p>
+<ul>
+  <li>In Term 5, S1 becomes leader.</li>
+  <li>S1 gets disconnected from the rest of the cluster.</li>
+  <li>The remaining servers elect S3 in Term 6.</li>
+  <li>S3 becomes the new leader.</li>
+</ul>
+<p>Now S1 suddenly reconnects. It still thinks, &ldquo;I&rsquo;m the leader!&rdquo;, but the rest of the cluster knows S3 is the leader. How do we prevent S1 from creating confusion?</p>
+<p>Every server maintains a current term number, and servers include it in every message they send. When S1 sees a message carrying Term 6, it realizes its own term is outdated, updates it, and steps down to follower. Any request S1 sends with the stale Term 5 is rejected.</p>
 
-        <h3>State machine</h3>
-        <p>
-            A state machine is simply a program that executes commands in the
-            same order on all servers (nodes) so that every server maintains the
-            same data. By &ldquo;simple program&rdquo; I just mean a piece of
-            code that takes an instruction, performs an operation and updates
-            stored data.
-        </p>
+<h2>How do servers communicate with each other?</h2>
+<p>They use <strong>RPC (Remote Procedure Call)</strong>. Two main RPCs are used for communication:</p>
+<ul>
+  <li><strong>RequestVote RPC:</strong> a candidate sends a message to the other servers: &ldquo;Hey! I&rsquo;m trying to become leader. Please vote for me.&rdquo; Other servers respond with their votes.</li>
+  <li><strong>AppendEntries RPC:</strong> the leader sends a message to followers: &ldquo;Here are the log entries you need to store.&rdquo; It also sends periodic empty AppendEntries messages to say: &ldquo;I&rsquo;m still alive. I&rsquo;m still the leader. Don&rsquo;t start an election.&rdquo;</li>
+</ul>
 
-        <h3>Log</h3>
-        <p>
-            A log is a list of commands stored on the local storage of each
-            server.
-        </p>
+<h3>Heartbeat mechanism</h3>
+<p>Imagine the leader sends a message every 100 milliseconds. Even if it has no new log entries, it sends an empty AppendEntries RPC. Followers keep receiving these messages and know the leader is alive. If a follower stops receiving them for long enough, it suspects the leader has failed and starts an election. This is called the <strong>heartbeat mechanism</strong>.</p>
 
-        <h3>Replicated log</h3>
-        <p>
-            The main job of Raft is to replicate data, and that data is the log.
-            Replication means the data is stored on different machines to avoid
-            a single point of failure.
-        </p>
+<h3>What if an RPC gets lost?</h3>
+<p>Networks are unreliable. Say S1 sends an RPC to S2 and the message gets lost. Raft simply retries the RPC if it doesn&rsquo;t receive a response within a reasonable time. Raft also sends RPCs to multiple servers in parallel rather than waiting on one server before contacting another, which improves performance.</p>
 
-        <h3>Leader</h3>
-        <p>
-            There are multiple servers (nodes) in a distributed system, and one
-            of them manages the incoming flow of commands and transfers them to
-            all the other servers. That server is the <strong>leader</strong>.
-        </p>
+<h2>Leader Election</h2>
+<p>Now let&rsquo;s move to the most important mechanism of Raft: leader election.</p>
+<p>Imagine you have 5 servers: S1, S2, S3, S4 and S5. They need to agree on one thing: who is the leader?</p>
 
-        <h3>Follower</h3>
-        <p>
-            Followers are the nodes connected to the leader. They follow the
-            leader&rsquo;s instructions.
-        </p>
+<h3>Why do we need a leader?</h3>
+<p>Because the leader is the one who maintains log replication and consistency across the whole distributed system. The leader receives client requests and replicates them across the servers.</p>
 
-        <h3>Candidate</h3>
-        <p>
-            A candidate is a server that takes part in an election, just like in
-            a normal election.
-        </p>
+<h3>What if the leader crashes?</h3>
+<p>In that case a new leader must be elected.</p>
+<p>Say S1 crashes. S2, S3, S4 and S5 are waiting for a heartbeat from S1, but nothing arrives. They don&rsquo;t immediately panic, because maybe the network is just slow. Instead, each follower waits for a certain amount of time called the <strong>election timeout</strong>. Think of it as: &ldquo;I&rsquo;m giving my leader some time to respond. If I hear nothing within this time, I&rsquo;ll assume the leader is unavailable.&rdquo; When the timeout expires, a follower decides to start an election.</p>
+<p><em>Election timeout: the amount of time a follower waits without receiving a heartbeat from the leader before deciding that the leader might have failed.</em></p>
 
-        <h3>Term</h3>
-        <p>
-            Think of a simple election. When a candidate is elected president,
-            they serve a term, and if it is their first time as president, it is
-            their first term. That&rsquo;s all a term is. In Raft, time is
-            divided into terms, and each term begins with an election.
-        </p>
+<h3>How does an election start?</h3>
+<p>Suppose S2&rsquo;s election timeout expires first. S2 performs three actions:</p>
+<ol>
+  <li>Increments its current term.</li>
+  <li>Changes its state from follower to candidate.</li>
+  <li>Votes for itself.</li>
+</ol>
 
-        <h4>Why does every server maintain a current term number?</h4>
-        <p>Imagine there are 5 servers (S1, S2, S3, S4, S5):</p>
-        <ul>
-            <li>In Term 5, S1 becomes leader.</li>
-            <li>S1 gets disconnected from the rest of the cluster.</li>
-            <li>The remaining servers elect S3 in Term 6.</li>
-            <li>S3 becomes the new leader.</li>
-        </ul>
-        <p>
-            Now S1 suddenly reconnects. It still thinks, &ldquo;I&rsquo;m the
-            leader!&rdquo;, but the rest of the cluster knows S3 is the leader.
-            How do we prevent S1 from creating confusion?
-        </p>
-        <p>
-            Every server maintains a current term number, and servers include it
-            in every message they send. When S1 sees a message carrying Term 6,
-            it realizes its own term is outdated, updates it, and steps down to
-            follower. Any request S1 sends with the stale Term 5 is rejected.
-        </p>
+<h3>How does a candidate ask others for votes?</h3>
+<p>S2 sends a message to all other servers: &ldquo;Hey! I want to become the leader. Please vote for me.&rdquo; This message is a <strong>RequestVote RPC</strong>.</p>
+<p>S3, S4 and S5 can vote for S2, but there is one very important rule: <strong>each server can vote for at most one candidate in a given term.</strong></p>
+<ul>
+  <li>S3 votes for S2 in Term 5.</li>
+  <li>S3 cannot vote for S4 in Term 5.</li>
+  <li>S3 can vote again in Term 6.</li>
+</ul>
+<p>Why? Otherwise, multiple candidates could collect votes from the same server, making elections meaningless.</p>
 
-        <h2>How do servers communicate with each other?</h2>
-        <p>
-            They use <strong>RPC (Remote Procedure Call)</strong>. Two main RPCs
-            are used for communication:
-        </p>
-        <ul>
-            <li>
-                <strong>RequestVote RPC:</strong> a candidate sends a message to
-                the other servers: &ldquo;Hey! I&rsquo;m trying to become
-                leader. Please vote for me.&rdquo; Other servers respond with
-                their votes.
-            </li>
-            <li>
-                <strong>AppendEntries RPC:</strong> the leader sends a message to
-                followers: &ldquo;Here are the log entries you need to
-                store.&rdquo; It also sends periodic empty AppendEntries messages
-                to say: &ldquo;I&rsquo;m still alive. I&rsquo;m still the leader.
-                Don&rsquo;t start an election.&rdquo;
-            </li>
-        </ul>
+<h3>How many votes are needed to win?</h3>
+<p>A candidate needs a <strong>majority</strong>, which means more than half of the votes.</p>
+<p>Majority = &lfloor;5/2&rfloor; + 1 = 3</p>
+<p>Majority voting guarantees that two candidates cannot both win the same term. Any two majorities in the same cluster must share at least one server, and that server cannot vote for two different candidates in the same term. This property is called <strong>Election Safety</strong>.</p>
 
-        <h3>Heartbeat mechanism</h3>
-        <p>
-            Imagine the leader sends a message every 100 milliseconds. Even if
-            it has no new log entries, it sends an empty AppendEntries RPC.
-            Followers keep receiving these messages and know the leader is
-            alive. If a follower stops receiving them for long enough, it
-            suspects the leader has failed and starts an election. This is
-            called the <strong>heartbeat mechanism</strong>.
-        </p>
+<h3>Edge cases</h3>
 
-        <h3>What if an RPC gets lost?</h3>
-        <p>
-            Networks are unreliable. Say S1 sends an RPC to S2 and the message
-            gets lost. Raft simply retries the RPC if it doesn&rsquo;t receive a
-            response within a reasonable time. Raft also sends RPCs to multiple
-            servers in parallel rather than waiting on one server before
-            contacting another, which improves performance.
-        </p>
+<h4>What if another candidate appears during an election?</h4>
+<p>Suppose S2 is a candidate in Term 5, and while the election is going on it receives an AppendEntries RPC from S3, claiming that S3 is the leader. S2 checks the term number in that message. There are two possibilities:</p>
+<ul>
+  <li>If S3&rsquo;s term is greater than or equal to S2&rsquo;s term, S2 accepts S3 as the legitimate leader, stops campaigning and goes back to being a follower.</li>
+  <li>If S3&rsquo;s term is smaller than S2&rsquo;s term, S3 is outdated. S2 rejects S3&rsquo;s RPC and remains a candidate.</li>
+</ul>
 
-        <h2>Leader Election</h2>
-        <p>
-            Now let&rsquo;s move to the most important mechanism of Raft: leader
-            election.
-        </p>
-        <p>
-            Imagine you have 5 servers: S1, S2, S3, S4 and S5. They need to
-            agree on one thing: who is the leader?
-        </p>
+<h4>What if all nodes start an election at the same time?</h4>
+<p>Imagine S1 crashes, and S2, S3, S4 and S5 all have their election timeouts expire at almost exactly the same time. All four become candidates and all four vote for themselves. Nobody gets a majority, so nobody becomes the leader. This is a <strong>split vote</strong>.</p>
 
-        <h3>Why do we need a leader?</h3>
-        <p>
-            Because the leader is the one who maintains log replication and
-            consistency across the whole distributed system. The leader receives
-            client requests and replicates them across the servers.
-        </p>
+<h3>The solution: randomized election timeouts</h3>
+<p>Instead of giving every server the same election timeout, Raft gives each server a randomized timeout, for example between 150ms and 300ms.</p>
+<p>Example: S2 gets a head start. Before S3, S4 and S5 reach their timeouts, they receive S2&rsquo;s election messages and vote for S2. S2 gets a majority and becomes the leader. Then S2 sends heartbeats, and the others reset their election timers and remain followers.</p>
+<p>The result: one leader gets elected without everyone fighting for leadership.</p>
+<p>And if a split vote happens again? The candidates independently choose new randomized timeouts before retrying, which makes it unlikely that they will all start their next election at the same moment. That&rsquo;s the beauty of randomized election timeouts.</p>
 
-        <h3>What if the leader crashes?</h3>
-        <p>In that case a new leader must be elected.</p>
-        <p>
-            Say S1 crashes. S2, S3, S4 and S5 are waiting for a heartbeat from
-            S1, but nothing arrives. They don&rsquo;t immediately panic, because
-            maybe the network is just slow. Instead, each follower waits for a
-            certain amount of time called the
-            <strong>election timeout</strong>. Think of it as: &ldquo;I&rsquo;m
-            giving my leader some time to respond. If I hear nothing within this
-            time, I&rsquo;ll assume the leader is unavailable.&rdquo; When the
-            timeout expires, a follower decides to start an election.
-        </p>
-        <p>
-            <em
-                >Election timeout: the amount of time a follower waits without
-                receiving a heartbeat from the leader before deciding that the
-                leader might have failed.</em
-            >
-        </p>
+<h2>Log Replication</h2>
+<p>Log replication is one of the most important jobs of Raft. It is how Raft makes sure multiple servers maintain identical logs, even when servers crash, restart or become leaders at different times.</p>
+<p>Let&rsquo;s understand it step by step, starting with the basics and then connecting all the mechanisms.</p>
 
-        <h3>How does an election start?</h3>
-        <p>
-            Suppose S2&rsquo;s election timeout expires first. S2 performs three
-            actions:
-        </p>
-        <ol>
-            <li>Increments its current term.</li>
-            <li>Changes its state from follower to candidate.</li>
-            <li>Votes for itself.</li>
-        </ol>
+<h3>What is a log in Raft?</h3>
+<p>Imagine a cluster of five servers: S1 is the leader, and S2, S3, S4 and S5 are followers. One leader coordinates the replication of commands across the followers.</p>
+<p>Suppose a client sends this request:</p>
+<pre>SET x = 10</pre>
+<p>The leader does not immediately execute this command. Instead, it first adds the command to its log. A log is essentially an ordered sequence of commands that the server must eventually execute. For example:</p>
 
-        <h3>How does a candidate ask others for votes?</h3>
-        <p>
-            S2 sends a message to all other servers: &ldquo;Hey! I want to
-            become the leader. Please vote for me.&rdquo; This message is a
-            <strong>RequestVote RPC</strong>.
-        </p>
-        <p>
-            S3, S4 and S5 can vote for S2, but there is one very important rule:
-            <strong
-                >each server can vote for at most one candidate in a given
-                term.</strong
-            >
-        </p>
-        <ul>
-            <li>S3 votes for S2 in Term 5.</li>
-            <li>S3 cannot vote for S4 in Term 5.</li>
-            <li>S3 can vote again in Term 6.</li>
-        </ul>
-        <p>
-            Why? Otherwise, multiple candidates could collect votes from the
-            same server, making elections meaningless.
-        </p>
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr><th>Index</th><th>Term</th><th>Command</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>1</td><td>SET x = 10</td></tr>
+    <tr><td>2</td><td>1</td><td>SET x = 20</td></tr>
+  </tbody>
+</table>
 
-        <h3>How many votes are needed to win?</h3>
-        <p>
-            A candidate needs a <strong>majority</strong>, which means more than
-            half of the votes.
-        </p>
-        <p>Majority = &lfloor;5/2&rfloor; + 1 = 3</p>
-        <p>
-            Majority voting guarantees that two candidates cannot both win the
-            same term. Any two majorities in the same cluster must share at
-            least one server, and that server cannot vote for two different
-            candidates in the same term. This property is called
-            <strong>Election Safety</strong>.
-        </p>
+<p>Each log entry contains three important things:</p>
+<ul>
+  <li><strong>Index:</strong> the position of the entry in the log.</li>
+  <li><strong>Term:</strong> the election term in which the leader received the command.</li>
+  <li><strong>Command:</strong> the actual operation that must be executed.</li>
+</ul>
+<p>We already know what a term is from the discussion above. The index is the position of an entry in the log, and we need it because all servers must execute commands in the same order.</p>
+<p>For example:</p>
+<pre>SET x = 10
+SET x = 20</pre>
+<p>If one server executes command 2 before command 1, its final value of x will be different from the others. Therefore, log ordering is essential.</p>
 
-        <h3>Edge cases</h3>
+<h3>What does &ldquo;committed&rdquo; mean in a Raft log?</h3>
+<p>A committed log entry is one that is safely replicated on a majority of servers and is guaranteed to be part of the system&rsquo;s agreed-upon history. Commitment is needed in Raft to ensure that all servers agree on which commands are final, and to prevent the loss or reversal of already accepted operations when a leader crashes.</p>
+<p>Remember these four different concepts:</p>
+<ul>
+  <li><strong>Appended</strong> = added to a server&rsquo;s log.</li>
+  <li><strong>Replicated</strong> = copied to other servers.</li>
+  <li><strong>Committed</strong> = safe to apply according to Raft&rsquo;s commitment rules.</li>
+  <li><strong>Applied</strong> = executed by the state machine.</li>
+</ul>
 
-        <h4>What if another candidate appears during an election?</h4>
-        <p>
-            Suppose S2 is a candidate in Term 5, and while the election is going
-            on it receives an AppendEntries RPC from S3, claiming that S3 is the
-            leader. S2 checks the term number in that message. There are two
-            possibilities:
-        </p>
-        <ul>
-            <li>
-                If S3&rsquo;s term is greater than or equal to S2&rsquo;s term,
-                S2 accepts S3 as the legitimate leader, stops campaigning and
-                goes back to being a follower.
-            </li>
-            <li>
-                If S3&rsquo;s term is smaller than S2&rsquo;s term, S3 is
-                outdated. S2 rejects S3&rsquo;s RPC and remains a candidate.
-            </li>
-        </ul>
+<h3>The Log Matching Property</h3>
+<p>Now we will understand a very important concept, which is the central part of log replication.</p>
+<p>Raft wants the logs of different servers to remain consistent, so it maintains two important properties. Together, they are called the <strong>Log Matching Property</strong>.</p>
 
-        <h4>What if all nodes start an election at the same time?</h4>
-        <p>
-            Imagine S1 crashes, and S2, S3, S4 and S5 all have their election
-            timeouts expire at almost exactly the same time. All four become
-            candidates and all four vote for themselves. Nobody gets a majority,
-            so nobody becomes the leader. This is a <strong>split vote</strong>.
-        </p>
+<h4>Property 1: same index and same term means same command</h4>
+<p>The paper states:</p>
+<blockquote>If two entries in different logs have the same index and term, then they store the same command.</blockquote>
+<p>Suppose two servers have the following logs. Compare index 3:</p>
+<pre>Server A:  Index = 3, Term = 2, Command = C
+Server B:  Index = 3, Term = 2, Command = C</pre>
+<p>Both have the same command. Why? Because Raft follows an important rule: <strong>a leader never creates more than one log entry with a given index in a given term.</strong> For example, suppose Server A is the leader in term 2. It creates:</p>
+<pre>Index = 3, Term = 2, Command = C</pre>
+<p>It will never create a different entry at index 3 while it is still the leader of term 2, and log entries never change their position. So any entry anywhere in the cluster with index 3 and term 2 must be this very same entry.</p>
 
-        <h3>The solution: randomized election timeouts</h3>
-        <p>
-            Instead of giving every server the same election timeout, Raft gives
-            each server a randomized timeout, for example between 150ms and
-            300ms.
-        </p>
-        <p>
-            Example: S2 gets a head start. Before S3, S4 and S5 reach their
-            timeouts, they receive S2&rsquo;s election messages and vote for S2.
-            S2 gets a majority and becomes the leader. Then S2 sends heartbeats,
-            and the others reset their election timers and remain followers.
-        </p>
-        <p>
-            The result: one leader gets elected without everyone fighting for
-            leadership.
-        </p>
-        <p>
-            And if a split vote happens again? The candidates independently
-            choose new randomized timeouts before retrying, which makes it
-            unlikely that they will all start their next election at the same
-            moment. That&rsquo;s the beauty of randomized election timeouts.
-        </p>
+<h4>Property 2: same index and same term means identical preceding entries</h4>
+<p>The second property is stronger. The paper states:</p>
+<blockquote>If two entries in different logs have the same index and term, then the logs are identical in all preceding entries.</blockquote>
+<p>Suppose Server A and Server B both have an entry with Index = 4 and Term = 2. Then their logs must also be identical at every index before 4.</p>
+<p>The logs are identical through index 4. If two logs match at index 4 in both index and term, they must match completely from index 1 through index 4. They cannot have different commands at index 1, 2 or 3.</p>
+<p>Why does this property hold? It is guaranteed by the consistency check performed by the <code>AppendEntries</code> RPC. Let&rsquo;s understand that mechanism.</p>
 
-        <h2>Log Replication</h2>
-        <p>
-            Log replication is one of the most important jobs of Raft. It is how
-            Raft makes sure multiple servers maintain identical logs, even when
-            servers crash, restart or become leaders at different times.
-        </p>
-        <p>
-            Let&rsquo;s understand it step by step, starting with the basics and
-            then connecting all the mechanisms.
-        </p>
+<h3>What is the AppendEntries RPC?</h3>
+<p>We know what AppendEntries is from above. Its job is the following:</p>
+<ul>
+  <li>Replicate new log entries to followers.</li>
+  <li>Send heartbeats to followers.</li>
+  <li>Inform followers about the commit index.</li>
+</ul>
+<p>Suppose the leader has this log:</p>
 
-        <h3>What is a log in Raft?</h3>
-        <p>
-            Imagine a cluster of five servers: S1 is the leader, and S2, S3, S4
-            and S5 are followers. One leader coordinates the replication of
-            commands across the followers.
-        </p>
-        <p>Suppose a client sends this request:</p>
-        <pre><code>SET x = 10</code></pre>
-        <p>
-            The leader does not immediately execute this command. Instead, it
-            first adds the command to its log. A log is essentially an ordered
-            sequence of commands that the server must eventually execute. For
-            example:
-        </p>
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr><th>Index</th><th>Term</th><th>Command</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>1</td><td>A</td></tr>
+    <tr><td>2</td><td>1</td><td>B</td></tr>
+    <tr><td>3</td><td>2</td><td>C</td></tr>
+    <tr><td>4</td><td>2</td><td>D</td></tr>
+  </tbody>
+</table>
 
-        <table border="1" cellpadding="6" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Index</th>
-                    <th>Term</th>
-                    <th>Command</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>SET x = 10</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>1</td>
-                    <td>SET x = 20</td>
-                </tr>
-            </tbody>
-        </table>
+<p>It wants to send entry 4 to a follower. The leader does not simply send &ldquo;Entry 4 = D&rdquo;. Instead, it also sends information about the entry immediately before the new entry. This is called the previous log index and previous log term:</p>
+<pre>AppendEntries RPC:
+prevLogIndex = 3
+prevLogTerm  = 2
+entries = [
+    (index=4, term=2, command=D)
+]</pre>
+<p>The follower checks:</p>
+<pre>Do I have an entry at index 3?
+If yes:
+    Does its term equal 2?
+If both conditions are true:
+    Accept the new entries.
+Otherwise:
+    Reject the request.</pre>
+<p>Let&rsquo;s see both situations.</p>
 
-        <p>Each log entry contains three important things:</p>
-        <ul>
-            <li><strong>Index:</strong> the position of the entry in the log.</li>
-            <li>
-                <strong>Term:</strong> the election term in which the leader
-                received the command.
-            </li>
-            <li>
-                <strong>Command:</strong> the actual operation that must be
-                executed.
-            </li>
-        </ul>
-        <p>
-            We already know what a term is from the discussion above. The index
-            is the position of an entry in the log, and we need it because all
-            servers must execute commands in the same order.
-        </p>
-        <p>For example:</p>
-        <pre><code>SET x = 10
-SET x = 20</code></pre>
-        <p>
-            If one server executes command 2 before command 1, its final value of
-            x will be different from the others. Therefore, log ordering is
-            essential.
-        </p>
+<h4>Situation A: the follower&rsquo;s log matches</h4>
+<pre>Leader:
+Index:  1   2   3   4
+Term:   1   1   2   2
+Log:    A   B   C   D
 
-        <hr />
+Follower:
+Index:  1   2   3
+Term:   1   1   2
+Log:    A   B   C</pre>
+<p>The leader sends prevLogIndex = 3 and prevLogTerm = 2. The follower checks: do I have index 3? Yes. Is its term 2? Yes. The consistency check succeeds, and the follower appends entry 4. Now both logs are:</p>
+<pre>Leader:    A  B  C  D
+Follower:  A  B  C  D</pre>
 
-        <p><a href="index.html">&larr; Back to home</a></p>
+<h4>Situation B: the follower&rsquo;s log does not match</h4>
+<pre>Leader:
+Index:  1   2   3   4
+Term:   1   1   2   2
+Log:    A   B   C   D
 
-        <p>© 2026 Ashutosh Yadav</p>
-    </body>
+Follower:
+Index:  1   2   3
+Term:   1   1   3
+Log:    A   B   X</pre>
+<p>The leader sends prevLogIndex = 3 and prevLogTerm = 2. The follower checks: do I have index 3? Yes. Is its term 2? No, its term is 3. The consistency check fails, so the follower rejects the request and does not append entry D. This is how Raft prevents different logs from silently diverging.</p>
+
+<h3>Why does the paper call this an induction step?</h3>
+<p>The paper says:</p>
+<blockquote>The consistency check acts as an induction step.</blockquote>
+<p>Mathematical induction is a technique for proving that a property holds for all natural numbers. It has two main steps:</p>
+<ul>
+  <li><strong>Base case:</strong> prove the property holds initially.</li>
+  <li><strong>Inductive step:</strong> prove that if it holds up to some point, it continues to hold at the next point.</li>
+</ul>
+<p>Raft uses the same reasoning.</p>
+<p><strong>Base case.</strong> Initially, all servers have empty logs.</p>
+<pre>Leader:    []
+Follower:  []</pre>
+<p>Since there are no entries, there cannot be any inconsistency. Therefore, the Log Matching Property holds initially.</p>
+<p><strong>Inductive step.</strong> Suppose the leader and follower logs are identical up to index 3.</p>
+<pre>Leader:    A  B  C
+Follower:  A  B  C</pre>
+<p>The leader wants to append entry D. It sends prevLogIndex = 3 and prevLogTerm = 2. The follower verifies that its entry at index 3 has the same term. If the check succeeds, the follower appends the new entries.</p>
+<pre>Leader:    A  B  C  D
+Follower:  A  B  C  D</pre>
+<p>The logs remain identical. Thus, if the property holds up to index 3, the consistency check ensures it also holds up to index 4. Therefore, Raft maintains the Log Matching Property as logs are extended.</p>
+<p><strong>The key idea:</strong> Raft does not blindly append entries. Every new batch of entries is connected to the existing log through a verified previous entry.</p>
+
+<h3>Why do logs become inconsistent?</h3>
+<p>During normal operation, one leader exists, it sends entries to followers, followers accept entries, and all logs remain consistent. But distributed systems experience failures:</p>
+<ul>
+  <li>A leader might crash before replicating all its entries.</li>
+  <li>A follower might be disconnected from the network.</li>
+  <li>A server might crash and restart with an older or incomplete log.</li>
+</ul>
+<p>These failures can create inconsistent logs.</p>
+
+<!-- Insert image: Figure 7 from the Raft paper -->
+<p><em>[Insert image: Figure 7 from the Raft paper]</em></p>
+
+<p>The paper identifies three general situations.</p>
+
+<h4>Situation 1: the follower is missing entries</h4>
+<p>Suppose the old leader has:</p>
+<pre>Index:  1   2   3   4   5
+Log:    A   B   C   D   E</pre>
+<p>But a follower has:</p>
+<pre>Index:  1   2   3
+Log:    A   B   C</pre>
+<p>The follower is missing entries D and E. This can happen if the follower was unavailable when the leader replicated those entries.</p>
+
+<h4>Situation 2: the follower has extra uncommitted entries</h4>
+<p>Suppose the old leader received a command and appended it to its log. However, before replicating it to a majority, the leader crashed. The entry is not committed. The old leader&rsquo;s log might have been:</p>
+<pre>Index:  1   2   3   4
+Term:   1   1   2   2
+Log:    A   B   C   D</pre>
+<p>A follower might have:</p>
+<pre>Index:  1   2   3   4
+Term:   1   1   2   2
+Log:    A   B   C   D</pre>
+<p>At this moment, they match. But another server might become leader without that uncommitted entry. For example, the new leader&rsquo;s log might be:</p>
+<pre>Index:  1   2   3
+Term:   1   1   2
+Log:    A   B   C</pre>
+<p>The follower has an extra entry D that the new leader doesn&rsquo;t have. Notice that an entry can exist in a log without being committed. That is why storing an entry is not the same as committing it.</p>
+
+<h4>Situation 3: the follower has both missing and extra entries</h4>
+<p>This is the most complicated situation. A server might have been an old leader in an earlier term, crashed, restarted, become leader again, and crashed once more. Its log could contain entries from multiple terms that are not present in the new leader&rsquo;s log.</p>
+
+<p><strong>New leader&rsquo;s log</strong></p>
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr><th>Index</th><th>Term</th><th>Entry</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>1</td><td>A</td></tr>
+    <tr><td>2</td><td>1</td><td>B</td></tr>
+    <tr><td>3</td><td>3</td><td>C</td></tr>
+    <tr><td>4</td><td>3</td><td>D</td></tr>
+    <tr><td>5</td><td>3</td><td>E</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Follower&rsquo;s log</strong></p>
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr><th>Index</th><th>Term</th><th>Entry</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>1</td><td>A</td></tr>
+    <tr><td>2</td><td>1</td><td>B</td></tr>
+    <tr><td>3</td><td>2</td><td>X</td></tr>
+    <tr><td>4</td><td>2</td><td>Y</td></tr>
+    <tr><td>5</td><td>4</td><td>Z</td></tr>
+  </tbody>
+</table>
+
+<p>The follower has entries X, Y and Z that conflict with the leader&rsquo;s entries, and it is missing the leader&rsquo;s entries C, D and E. This is the kind of situation the leader must repair.</p>
+<p><strong>Important:</strong> the entries in this example are illustrative. The actual election and commitment rules of Raft determine which histories can occur.</p>
+
+<h3>How does Raft repair inconsistent logs?</h3>
+<p>This is the most important practical mechanism. The paper says:</p>
+<blockquote>In Raft, the leader handles inconsistencies by forcing the followers&rsquo; logs to duplicate its own.</blockquote>
+<p>In simple terms, the new leader&rsquo;s log becomes the source of truth for repairing the follower&rsquo;s conflicting uncommitted suffix. Suppose the new leader has:</p>
+<pre>Leader:
+Index:  1   2   3   4   5
+Term:   1   1   3   3   3
+Log:    A   B   C   D   E</pre>
+<p>The follower has:</p>
+<pre>Follower:
+Index:  1   2   3   4   5
+Term:   1   1   2   2   2
+Log:    A   B   X   Y   Z</pre>
+<p>The logs match only up to index 2. The leader must:</p>
+<ol>
+  <li>Find the latest index where both logs agree.</li>
+  <li>Remove the follower&rsquo;s entries after that point.</li>
+  <li>Send its own entries after that point.</li>
+  <li>Make the follower&rsquo;s log match its own.</li>
+</ol>
+
+<h4>What is nextIndex?</h4>
+<p>The leader maintains a variable called <code>nextIndex</code> for every follower. For example:</p>
+<pre>nextIndex[S2] = 6
+nextIndex[S3] = 6
+nextIndex[S4] = 6
+nextIndex[S5] = 6</pre>
+<p>Why 6? Because the leader has five entries, so the next entry it would send is at index 6. In general:</p>
+<pre>nextIndex = lastLogIndex + 1</pre>
+<p>When a new leader is elected, it initially sets every follower&rsquo;s nextIndex to the index immediately after the last entry in its own log. This is an optimistic assumption: the leader assumes that followers are almost as up-to-date as itself. But this might be wrong.</p>
+
+<h4>What happens when AppendEntries fails?</h4>
+<p>Take our example. Initially nextIndex = 6. The leader tries to send entries beginning at index 6, with prevLogIndex = 5 and prevLogTerm = 3. But the follower has Index 5, Term 2. The consistency check fails, and the follower rejects the request. The leader decrements nextIndex and retries:</p>
+<ul>
+  <li>nextIndex = 5: prevLogIndex = 4, prevLogTerm = 3. The follower has term 2 at index 4. Rejected.</li>
+  <li>nextIndex = 4: prevLogIndex = 3, prevLogTerm = 3. The follower has term 2 at index 3. Rejected.</li>
+  <li>nextIndex = 3: prevLogIndex = 2, prevLogTerm = 1. The follower has Index 2, Term 1. The consistency check succeeds.</li>
+</ul>
+<p>The leader has now found the latest matching entry.</p>
+
+<h4>How are conflicting entries deleted?</h4>
+<p>Once the leader finds the matching point, it sends its entries starting from index 3. The follower:</p>
+<ol>
+  <li>Keeps entries 1 and 2.</li>
+  <li>Deletes conflicting entries 3, 4 and 5.</li>
+  <li>Appends the leader&rsquo;s entries C, D and E.</li>
+</ol>
+<p>The resulting logs are identical:</p>
+<pre>Leader:
+Index:  1   2   3   4   5
+Term:   1   1   3   3   3
+Log:    A   B   C   D   E
+
+Follower:
+Index:  1   2   3   4   5
+Term:   1   1   3   3   3
+Log:    A   B   C   D   E</pre>
+<p>This is called <strong>log reconciliation</strong> or <strong>log repair</strong>.</p>
+<p>One important detail: a follower does not delete entries merely because it receives a new request. It deletes conflicting entries when it receives entries that conflict with its existing entries. Committed entries are protected by Raft&rsquo;s safety guarantees.</p>
+
+<h3>Why does Raft use a decrementing nextIndex?</h3>
+<p>You might wonder: why doesn&rsquo;t the leader directly ask the follower where the logs match? The basic Raft protocol uses a simple approach. It starts from the end of the leader&rsquo;s log and moves backward until it finds a matching entry:</p>
+<pre>nextIndex = 6  -&gt; Check index 5 -&gt; Failure
+nextIndex = 5  -&gt; Check index 4 -&gt; Failure
+nextIndex = 4  -&gt; Check index 3 -&gt; Failure
+nextIndex = 3  -&gt; Check index 2 -&gt; Success</pre>
+<p>This works, but it can require several rejected RPCs. Suppose the follower has 100 conflicting entries. The leader might need approximately 100 rejection attempts before finding the matching point. This is why the paper discusses an optimization.</p>
+
+<h3>Optimization: skip an entire conflicting term</h3>
+<p>Raft can optimize the process by allowing the follower to return additional information when rejecting an AppendEntries request. Instead of simply saying &ldquo;Request rejected&rdquo;, the follower can tell the leader:</p>
+<ul>
+  <li>The conflicting term is 2.</li>
+  <li>The first index containing term 2 is 50.</li>
+</ul>
+<p>Now the leader can skip all entries from that conflicting term. Suppose the follower has:</p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr><th>Index</th><th>Term</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>1</td></tr>
+    <tr><td>2</td><td>1</td></tr>
+    <tr><td>3</td><td>2</td></tr>
+    <tr><td>4</td><td>2</td></tr>
+    <tr><td>5</td><td>2</td></tr>
+    <tr><td>6</td><td>2</td></tr>
+    <tr><td>7</td><td>2</td></tr>
+    <tr><td>8</td><td>3</td></tr>
+    <tr><td>9</td><td>3</td></tr>
+  </tbody>
+</table>
+
+<p>If the leader discovers a conflict in term 2, the follower can tell it:</p>
+<pre>conflictTerm = 2
+firstIndexOfConflictTerm = 3</pre>
+<p>The leader can move nextIndex directly to an appropriate position, skipping the remaining entries of term 2 rather than checking every individual entry. Thus:</p>
+<ul>
+  <li><strong>Without optimization:</strong> potentially one rejected RPC per conflicting entry.</li>
+  <li><strong>With optimization:</strong> approximately one rejected RPC per conflicting term.</li>
+</ul>
+<p>If there are 100 conflicting entries spread across 3 terms, the optimized approach can significantly reduce communication. This is especially useful for long logs with many conflicting entries.</p>
+
+<h3>The Leader Append-Only Property</h3>
+<p>The paper also says:</p>
+<blockquote>A leader never overwrites or deletes entries in its own log.</blockquote>
+<p>This is called the <strong>Leader Append-Only Property</strong>. Once a server becomes a leader, it can only append new entries to its own log. It cannot go back and modify or delete existing entries in its own log. For example, before receiving a new command:</p>
+<pre>Leader:  A B C D</pre>
+<p>After receiving a new command E:</p>
+<pre>Leader:  A B C D E</pre>
+<p>It can append E. But it cannot do this:</p>
+<pre>Leader:  A B X D</pre>
+<p>It cannot replace C with X.</p>
+<p>Then why can a follower delete entries? Because the leader and follower have different responsibilities. The leader&rsquo;s own log is append-only, while a follower&rsquo;s conflicting uncommitted entries can be removed to bring it into agreement with the leader. The leader never modifies its own historical log entries, but it can cause followers to discard conflicting entries.</p>
+
+<h3>Why doesn&rsquo;t the leader need special recovery procedures?</h3>
+<p>The paper says:</p>
+<blockquote>A leader does not need to take any special actions to restore log consistency when it comes to power.</blockquote>
+<p>Why? Because the same normal AppendEntries mechanism automatically repairs inconsistencies. Consider the sequence:</p>
+<ol>
+  <li>A new leader is elected.</li>
+  <li>It initializes nextIndex for each follower.</li>
+  <li>It sends normal AppendEntries requests.</li>
+  <li>If the follower&rsquo;s log matches, the request succeeds.</li>
+  <li>If it doesn&rsquo;t match, the follower rejects the request.</li>
+  <li>The leader decreases nextIndex and retries.</li>
+  <li>Eventually, a matching point is found.</li>
+  <li>The leader sends its entries and repairs the follower&rsquo;s log.</li>
+</ol>
+<p>There is no separate recovery protocol required. The same mechanism handles both normal replication and recovery after failures. This makes Raft relatively simple to understand and implement.</p>
+
+<h3>How can Raft continue working when a follower is slow?</h3>
+<p>Suppose S1 is the leader and S2 to S5 are followers. A client sends a command. The leader needs a majority of three servers. Suppose:</p>
+<ul>
+  <li>S1 (Leader): Replicated</li>
+  <li>S2: Replicated</li>
+  <li>S3: Replicated</li>
+  <li>S4: Slow</li>
+  <li>S5: Disconnected</li>
+</ul>
+<p>The entry can still be committed because three out of five servers have it. The leader does not need to wait for every follower. This gives Raft an important performance advantage: a single slow follower does not prevent the cluster from making progress.</p>
+<p>However, if the leader and enough followers fail such that a majority is unavailable, Raft cannot commit new entries. This is an intentional trade-off: Raft prioritizes safety over availability when a majority cannot communicate.</p>
+
+</body>
 </html>
