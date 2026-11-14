@@ -492,5 +492,53 @@ firstIndexOfConflictTerm = 3</pre>
 <p>The entry can still be committed because three out of five servers have it. The leader does not need to wait for every follower. This gives Raft an important performance advantage: a single slow follower does not prevent the cluster from making progress.</p>
 <p>However, if the leader and enough followers fail such that a majority is unavailable, Raft cannot commit new entries. This is an intentional trade-off: Raft prioritizes safety over availability when a majority cannot communicate.</p>
 
+<h3>A complete example: from inconsistency to consistency</h3>
+<p>Let&rsquo;s put everything together. Assume three servers: S1 (new leader), S2 and S3.</p>
+
+<pre>S1 (Leader)
+
+Index:  1   2   3   4   5
+Term:   1   1   2   3   3
+Log:    A   B   C   D   E</pre>
+
+<pre>S2 (Follower)
+
+Index:  1   2   3   4
+Term:   1   1   2   2
+Log:    A   B   C   X</pre>
+
+<pre>S3 (Follower)
+
+Index:  1   2   3
+Term:   1   1   2
+Log:    A   B   C</pre>
+
+<p><strong>Step 1: The leader initializes nextIndex.</strong> The leader has five entries, so <code>nextIndex[S2] = 6</code> and <code>nextIndex[S3] = 6</code>.</p>
+<p><strong>Step 2: The leader tries S2.</strong> It sends the consistency information for index 5. S2 does not have a matching index 5, so the request is rejected. The leader decrements <code>nextIndex</code> and retries. Eventually it finds that index 3 matches. S2 deletes X and appends D and E.</p>
+<p><strong>Step 3: The leader tries S3.</strong> S3 has entries 1, 2 and 3. The consistency check at index 3 succeeds, and S3 appends D and E.</p>
+<p><strong>Step 4: All logs become identical.</strong></p>
+<pre>S1 (Leader):    A | B | C | D | E
+S2 (Follower):  A | B | C | D | E
+S3 (Follower):  A | B | C | D | E</pre>
+<p>If the leader has replicated an entry to a majority and the commitment rule is satisfied, it advances its commit index and informs followers through future <code>AppendEntries</code> RPCs. The followers then apply committed entries to their state machines in log order.</p>
+
+<h3>Log consistency vs. commitment safety</h3>
+<p>There is one subtle point you should not overlook. Conflicting entries in follower logs are overwritten by entries from the leader&rsquo;s log, and this is safe only when coupled with one more restriction, discussed in Section 5.4 of the Raft paper. Why is it needed? Imagine:</p>
+<ol>
+  <li>An old leader appends an entry.</li>
+  <li>It replicates the entry to some servers, but not a majority.</li>
+  <li>The entry remains uncommitted.</li>
+  <li>A new leader is elected.</li>
+  <li>The new leader repairs follower logs.</li>
+</ol>
+<p>How do we know that the new leader won&rsquo;t overwrite an entry that was already committed? Raft solves this using its election restriction and commitment rules. In particular:</p>
+<ul>
+  <li>A candidate must have an up-to-date log to win an election.</li>
+  <li>A server compares the candidate&rsquo;s last log term and last log index against its own.</li>
+  <li>A leader in its current term can directly commit an entry when it is replicated on a majority.</li>
+  <li>Once a current-term entry is committed, all preceding entries in that leader&rsquo;s log are also committed.</li>
+</ul>
+<p>A leader cannot safely commit an old-term entry merely by observing that it exists on a majority. It must first commit an entry from its current term. This is a crucial detail of Raft&rsquo;s safety argument, and it prevents a newly elected leader from destroying committed history. We&rsquo;ll cover it in detail in the Safety section.</p>
+
 </body>
 </html>
