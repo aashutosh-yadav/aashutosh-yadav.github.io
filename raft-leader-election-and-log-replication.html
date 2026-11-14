@@ -32,7 +32,7 @@
 
 <h3>State machine</h3>
 <p>A state machine is simply a program that executes commands in the same order on all servers (nodes) so that every server maintains the same data. By &ldquo;simple program&rdquo; I just mean a piece of code that takes an instruction, performs an operation and updates stored data.</p>
-
+<img src="images/image1.png" alt="Figure 7 from the Raft paper: possible log inconsistencies in followers" width="300">
 <h3>Log</h3>
 <p>A log is a list of commands stored on the local storage of each server.</p>
 
@@ -50,7 +50,7 @@
 
 <h3>Term</h3>
 <p>Think of a simple election. When a candidate is elected president, they serve a term, and if it is their first time as president, it is their first term. That&rsquo;s all a term is. In Raft, time is divided into terms, and each term begins with an election.</p>
-
+<img src="images/image3.png" alt="Figure 5 term diagram" width="500">
 <h4>Why does every server maintain a current term number?</h4>
 <p>Imagine there are 5 servers (S1, S2, S3, S4, S5):</p>
 <ul>
@@ -69,6 +69,8 @@
   <li><strong>AppendEntries RPC:</strong> the leader sends a message to followers: &ldquo;Here are the log entries you need to store.&rdquo; It also sends periodic empty AppendEntries messages to say: &ldquo;I&rsquo;m still alive. I&rsquo;m still the leader. Don&rsquo;t start an election.&rdquo;</li>
 </ul>
 
+<img src="images/image5.png" alt="RPC communication" width="500">
+
 <h3>Heartbeat mechanism</h3>
 <p>Imagine the leader sends a message every 100 milliseconds. Even if it has no new log entries, it sends an empty AppendEntries RPC. Followers keep receiving these messages and know the leader is alive. If a follower stops receiving them for long enough, it suspects the leader has failed and starts an election. This is called the <strong>heartbeat mechanism</strong>.</p>
 
@@ -76,6 +78,9 @@
 <p>Networks are unreliable. Say S1 sends an RPC to S2 and the message gets lost. Raft simply retries the RPC if it doesn&rsquo;t receive a response within a reasonable time. Raft also sends RPCs to multiple servers in parallel rather than waiting on one server before contacting another, which improves performance.</p>
 
 <h2>Leader Election</h2>
+<figure>
+  <img src="images/image2.png" alt="Figure 4 from the Raft paper" width="600">
+</figure>
 <p>Now let&rsquo;s move to the most important mechanism of Raft: leader election.</p>
 <p>Imagine you have 5 servers: S1, S2, S3, S4 and S5. They need to agree on one thing: who is the leader?</p>
 
@@ -132,6 +137,7 @@
 <p>Log replication is one of the most important jobs of Raft. It is how Raft makes sure multiple servers maintain identical logs, even when servers crash, restart or become leaders at different times.</p>
 <p>Let&rsquo;s understand it step by step, starting with the basics and then connecting all the mechanisms.</p>
 
+
 <h3>What is a log in Raft?</h3>
 <p>Imagine a cluster of five servers: S1 is the leader, and S2, S3, S4 and S5 are followers. One leader coordinates the replication of commands across the followers.</p>
 <p>Suppose a client sends this request:</p>
@@ -169,6 +175,8 @@ SET x = 20</pre>
   <li><strong>Committed</strong> = safe to apply according to Raft&rsquo;s commitment rules.</li>
   <li><strong>Applied</strong> = executed by the state machine.</li>
 </ul>
+
+<img src="images/image4.png" alt="Figure 6 log replication" width="500">
 
 <h3>The Log Matching Property</h3>
 <p>Now we will understand a very important concept, which is the central part of log replication.</p>
@@ -243,6 +251,8 @@ Log:    A   B   C</pre>
 <pre>Leader:    A  B  C  D
 Follower:  A  B  C  D</pre>
 
+<img src="images/image6.png" alt="the follower's log matches" width="500">
+
 <h4>Situation B: the follower&rsquo;s log does not match</h4>
 <pre>Leader:
 Index:  1   2   3   4
@@ -255,27 +265,7 @@ Term:   1   1   3
 Log:    A   B   X</pre>
 <p>The leader sends prevLogIndex = 3 and prevLogTerm = 2. The follower checks: do I have index 3? Yes. Is its term 2? No, its term is 3. The consistency check fails, so the follower rejects the request and does not append entry D. This is how Raft prevents different logs from silently diverging.</p>
 
-<h3>Why does the paper call this an induction step?</h3>
-<p>The paper says:</p>
-<blockquote>The consistency check acts as an induction step.</blockquote>
-<p>Mathematical induction is a technique for proving that a property holds for all natural numbers. It has two main steps:</p>
-<ul>
-  <li><strong>Base case:</strong> prove the property holds initially.</li>
-  <li><strong>Inductive step:</strong> prove that if it holds up to some point, it continues to hold at the next point.</li>
-</ul>
-<p>Raft uses the same reasoning.</p>
-<p><strong>Base case.</strong> Initially, all servers have empty logs.</p>
-<pre>Leader:    []
-Follower:  []</pre>
-<p>Since there are no entries, there cannot be any inconsistency. Therefore, the Log Matching Property holds initially.</p>
-<p><strong>Inductive step.</strong> Suppose the leader and follower logs are identical up to index 3.</p>
-<pre>Leader:    A  B  C
-Follower:  A  B  C</pre>
-<p>The leader wants to append entry D. It sends prevLogIndex = 3 and prevLogTerm = 2. The follower verifies that its entry at index 3 has the same term. If the check succeeds, the follower appends the new entries.</p>
-<pre>Leader:    A  B  C  D
-Follower:  A  B  C  D</pre>
-<p>The logs remain identical. Thus, if the property holds up to index 3, the consistency check ensures it also holds up to index 4. Therefore, Raft maintains the Log Matching Property as logs are extended.</p>
-<p><strong>The key idea:</strong> Raft does not blindly append entries. Every new batch of entries is connected to the existing log through a verified previous entry.</p>
+<img src="images/image7.png" alt="the follower's log differ" width="500">
 
 <h3>Why do logs become inconsistent?</h3>
 <p>During normal operation, one leader exists, it sends entries to followers, followers accept entries, and all logs remain consistent. But distributed systems experience failures:</p>
@@ -286,8 +276,7 @@ Follower:  A  B  C  D</pre>
 </ul>
 <p>These failures can create inconsistent logs.</p>
 
-<!-- Insert image: Figure 7 from the Raft paper -->
-<p><em>[Insert image: Figure 7 from the Raft paper]</em></p>
+<img src="images/image8.png" alt="missing entries" width="500">
 
 <p>The paper identifies three general situations.</p>
 
@@ -371,6 +360,9 @@ Log:    A   B   X   Y   Z</pre>
 </ol>
 
 <h4>What is nextIndex?</h4>
+
+<img src="images/image9.png" alt="nextIndex understanding" width="500">
+
 <p>The leader maintains a variable called <code>nextIndex</code> for every follower. For example:</p>
 <pre>nextIndex[S2] = 6
 nextIndex[S3] = 6
@@ -418,6 +410,9 @@ nextIndex = 3  -&gt; Check index 2 -&gt; Success</pre>
 <p>This works, but it can require several rejected RPCs. Suppose the follower has 100 conflicting entries. The leader might need approximately 100 rejection attempts before finding the matching point. This is why the paper discusses an optimization.</p>
 
 <h3>Optimization: skip an entire conflicting term</h3>
+
+<img src="images/image10.png" alt="optimization" width="500">
+
 <p>Raft can optimize the process by allowing the follower to return additional information when rejecting an AppendEntries request. Instead of simply saying &ldquo;Request rejected&rdquo;, the follower can tell the leader:</p>
 <ul>
   <li>The conflicting term is 2.</li>
@@ -538,7 +533,11 @@ S3 (Follower):  A | B | C | D | E</pre>
   <li>A leader in its current term can directly commit an entry when it is replicated on a majority.</li>
   <li>Once a current-term entry is committed, all preceding entries in that leader&rsquo;s log are also committed.</li>
 </ul>
-<p>A leader cannot safely commit an old-term entry merely by observing that it exists on a majority. It must first commit an entry from its current term. This is a crucial detail of Raft&rsquo;s safety argument, and it prevents a newly elected leader from destroying committed history. We&rsquo;ll cover it in detail in the Safety section.</p>
+<p>A leader cannot safely commit an old-term entry merely by observing that it exists on a majority. It must first commit an entry from its current term. This is a crucial detail of Raft&rsquo;s safety argument, and it prevents a newly elected leader from destroying committed history.
+<h2>END</h2>
+
+<p>so this is the deatiled explaination of raft leader election and log replication which are the most imp concepts in the paper there are still more things to discuss like edge cases which are not disucces in this blog but u can refer the paper for that. </p>
+<p>The paper has three imp section mainly leader election , log replication and saftey , here we are discussing just two (log replication and leader election).</p>
 
 </body>
 </html>
