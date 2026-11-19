@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building “Infinity”: What a URL Shortener Taught Me About Real Backend Systems</title>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 3.5rem 1.25rem 6rem;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            Helvetica, Arial, sans-serif;
+        font-size: 17px;
+        line-height: 1.7;
+        color: #1a1a1a;
+        background: #fdfdfd;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    header {
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    h1 {
+        margin: 0 0 1.25rem;
+        font-size: clamp(2rem, 5vw, 2.75rem);
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+    }
+
+    h2 {
+        margin: 2.75rem 0 0.9rem;
+        font-size: 1.55rem;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+    }
+
+    h3 {
+        margin: 2rem 0 0.6rem;
+        font-size: 1.2rem;
+        line-height: 1.4;
+    }
+
+    h4 {
+        margin: 1.6rem 0 0.5rem;
+        font-size: 1.05rem;
+    }
+
+    p {
+        margin: 0 0 1.15rem;
+    }
+
+    ul,
+    ol {
+        margin: 0 0 1.25rem;
+        padding-left: 1.5rem;
+    }
+
+    li {
+        margin: 0.25rem 0;
+    }
+
+    a {
+        color: #0b5cad;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    blockquote {
+        margin: 1.75rem 0;
+        padding-left: 1.25rem;
+        border-left: 3px solid #e5e5e5;
+        color: #555;
+        font-style: italic;
+    }
+
+    blockquote p {
+        margin: 0;
+    }
+
+    code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.9em;
+        padding: 0.15em 0.35em;
+        background: #f2f2f2;
+        border-radius: 4px;
+    }
+
+    pre {
+        margin: 1.5rem 0;
+        padding: 1rem 1.1rem;
+        overflow-x: auto;
+        background: #f6f6f6;
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+        line-height: 1.5;
+    }
+
+    pre code {
+        padding: 0;
+        background: none;
+        border-radius: 0;
+        font-size: 0.875rem;
+    }
+
+    figure {
+        margin: 2rem 0;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    figure img {
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+    }
+
+    table {
+        margin: 1.5rem 0;
+        border: 0;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+    }
+
+    th,
+    td {
+        padding: 0.45rem 0.8rem;
+        border: 1px solid #e5e5e5;
+        text-align: left;
+    }
+
+    th {
+        background: #f7f7f7;
+        font-weight: 600;
+    }
+</style>
+</head>
+<body>
+<main>
+<article>
+
+<header>
+<h1>Building a high performance backend system</h1>
+
+<p>
+Here I will be documenting how I built this project and what decisions I took
+while building it.
+</p>
+
+<p>
+The project is
+(<a href="https://github.com/aashutosh-yadav/Infinity"
+>Infinity, a high-performance backend system</a
+>). The code and benchmarks are on GitHub.
+</p>
+</header>
+
+</article>
+</main>
+</body>
+</html>
