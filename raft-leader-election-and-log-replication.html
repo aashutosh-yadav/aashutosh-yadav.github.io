@@ -186,7 +186,7 @@
 <h3>State machine</h3>
 <p>A state machine is simply a program that executes commands in the same order on all servers (nodes) so that every server maintains the same data. By &ldquo;simple program&rdquo; I just mean a piece of code that takes an instruction, performs an operation and updates stored data.</p>
 <figure>
-<img src="images/image1.png" alt="Figure 7 from the Raft paper: possible log inconsistencies in followers" width="300">
+<img src="images/raft-blog/image1.png" alt="Figure 7 from the Raft paper: possible log inconsistencies in followers" width="300">
 </figure>
 <h3>Log</h3>
 <p>A log is a list of commands stored on the local storage of each server.</p>
@@ -206,7 +206,7 @@
 <h3>Term</h3>
 <p>Think of a simple election. When a candidate is elected president, they serve a term, and if it is their first time as president, it is their first term. That&rsquo;s all a term is. In Raft, time is divided into terms, and each term begins with an election.</p>
 <figure>
-<img src="images/image3.png" alt="Figure 5 term diagram" width="500">
+<img src="images/raft-blog/image3.png" alt="Figure 5 term diagram" width="500">
 </figure>
 <h4>Why does every server maintain a current term number?</h4>
 <p>Imagine there are 5 servers (S1, S2, S3, S4, S5):</p>
@@ -229,7 +229,7 @@
 </ul>
 
 <figure>
-<img src="images/image5.png" alt="RPC communication" width="500">
+<img src="images/raft-blog/image5.png" alt="RPC communication" width="500">
 </figure>
 
 <h3>Heartbeat mechanism</h3>
@@ -242,7 +242,7 @@
 <section>
 <h2>Leader Election</h2>
 <figure>
-  <img src="images/image2.png" alt="Figure 4 from the Raft paper" width="600">
+  <img src="images/raft-blog/image2.png" alt="Figure 4 from the Raft paper" width="600">
 </figure>
 <p>Now let&rsquo;s move to the most important mechanism of Raft: leader election.</p>
 <p>Imagine you have 5 servers: S1, S2, S3, S4 and S5. They need to agree on one thing: who is the leader?</p>
@@ -342,7 +342,7 @@ SET x = 20</code></pre>
 </ul>
 
 <figure>
-<img src="images/image4.png" alt="Figure 6 log replication" width="500">
+<img src="images/raft-blog/image4.png" alt="Figure 6 log replication" width="500">
 </figure>
 
 <h3>The Log Matching Property</h3>
@@ -419,7 +419,7 @@ Log:    A   B   C</code></pre>
 Follower:  A  B  C  D</code></pre>
 
 <figure>
-<img src="images/image6.png" alt="the follower's log matches" width="500">
+<img src="images/raft-blog/image6.png" alt="the follower's log matches" width="500">
 </figure>
 
 <h4>Situation B: the follower&rsquo;s log does not match</h4>
@@ -435,7 +435,7 @@ Log:    A   B   X</code></pre>
 <p>The leader sends prevLogIndex = 3 and prevLogTerm = 2. The follower checks: do I have index 3? Yes. Is its term 2? No, its term is 3. The consistency check fails, so the follower rejects the request and does not append entry D. This is how Raft prevents different logs from silently diverging.</p>
 
 <figure>
-<img src="images/image7.png" alt="the follower's log differ" width="500">
+<img src="images/raft-blog/image7.png" alt="the follower's log differ" width="500">
 </figure>
 
 <h3>Why do logs become inconsistent?</h3>
@@ -448,7 +448,7 @@ Log:    A   B   X</code></pre>
 <p>These failures can create inconsistent logs.</p>
 
 <figure>
-<img src="images/image8.png" alt="missing entries" width="500">
+<img src="images/raft-blog/image8.png" alt="missing entries" width="500">
 </figure>
 
 <p>The paper identifies three general situations.</p>
@@ -535,7 +535,7 @@ Log:    A   B   X   Y   Z</code></pre>
 <h4>What is nextIndex?</h4>
 
 <figure>
-<img src="images/image9.png" alt="nextIndex understanding" width="500">
+<img src="images/raft-blog/image9.png" alt="nextIndex understanding" width="500">
 </figure>
 
 <p>The leader maintains a variable called <code>nextIndex</code> for every follower. For example:</p>
@@ -587,7 +587,7 @@ nextIndex = 3  -&gt; Check index 2 -&gt; Success</code></pre>
 <h3>Optimization: skip an entire conflicting term</h3>
 
 <figure>
-<img src="images/image10.png" alt="optimization" width="500">
+<img src="images/raft-blog/image10.png" alt="optimization" width="500">
 </figure>
 
 <p>Raft can optimize the process by allowing the follower to return additional information when rejecting an AppendEntries request. Instead of simply saying &ldquo;Request rejected&rdquo;, the follower can tell the leader:</p>
