@@ -18,118 +18,140 @@
     </head>
 
     <body>
-        <h1>Ashutosh Yadav</h1>
+        <header>
+            <h1>Ashutosh Yadav</h1>
 
-        <p>Computer Engineer</p>
+            <p>Computer Engineer</p>
+        </header>
 
-        <p>
-            Computer engineer specializing in backend systems and performance
-            engineering, with a growing focus on distributed systems , and
-            databases. I enjoy diagnosing bottlenecks and building software that
-            holds up under load.
-        </p>
+        <main>
+            <p>
+                Computer engineer specializing in backend systems and performance
+                engineering, with a growing focus on distributed systems , and
+                databases. I enjoy diagnosing bottlenecks and building software that
+                holds up under load.
+            </p>
 
-        <hr />
+            <section>
+                <h2>Skills</h2>
 
-        <h3>Skills</h3>
+                <p>Python, Go, C++, FastAPI, Redis, Docker, Git</p>
+            </section>
 
-        <p>Python, Go, C++, FastAPI, Redis, Docker, Git</p>
+            <section>
+                <h2>Selected Work</h2>
 
-        <hr />
+                <article>
+                    <h3>
+                        High-Performance backend —
+                        <a href="https://github.com/aashutosh-yadav/Infinity"
+                            >GitHub</a
+                        >
+                        |
+                        <a
+                            href="https://github.com/aashutosh-yadav/Infinity/blob/main/README.md"
+                            >README</a
+                        >
+                        |
+                        <a
+                            href="https://github.com/aashutosh-yadav/Infinity/blob/main/BENCHMARK.md"
+                            >Benchmarks</a
+                        >
+                        |
+                        <a
+                            href="https://infinity-vpko.onrender.com/"
+                            target="_blank"
+                            rel="noopener"
+                            >Live Demo</a
+                        >
+                    </h3>
 
-        <h3>Selected Work</h3>
+                    <p>Python, FastAPI, PostgreSQL, Redis, asyncio</p>
 
-        <h4>
-            High-Performance backend —
-            <a href="https://github.com/aashutosh-yadav/Infinity">GitHub</a> |
-            <a
-                href="https://github.com/aashutosh-yadav/Infinity/blob/main/README.md"
-                >README</a
-            >
-            |
-            <a
-                href="https://github.com/aashutosh-yadav/Infinity/blob/main/BENCHMARK.md"
-                >Benchmarks</a
-            >
-            |
-            <a
-                href="https://infinity-vpko.onrender.com/"
-                target="_blank"
-                rel="noopener"
-                >Live Demo</a
-            >
-        </h4>
+                    <p>
+                        A fully async URL shortener with in-process LRU and Redis
+                        caching. Load testing exposed cache and thread-pool
+                        bottlenecks, which I fixed through cache-path optimization and
+                        a full async rewrite. Reached ~20,400 req/sec on cache hits and
+                        ~3,500 req/sec on cache misses. Metrics shown on the page are
+                        very different from the ones in the benchmarks because of
+                        deployment resources (free version); for real numbers, you can
+                        check it out locally.
+                    </p>
+                </article>
 
-        <p>Python, FastAPI, PostgreSQL, Redis, asyncio</p>
+                <article>
+                    <h3>
+                        Job queue --
+                        <a href="https://github.com/aashutosh-yadav/job-queue"
+                            >GitHub</a
+                        >
+                    </h3>
 
-        <p>
-            A fully async URL shortener with in-process LRU and Redis caching.
-            Load testing exposed cache and thread-pool bottlenecks, which I
-            fixed through cache-path optimization and a full async rewrite.
-            Reached ~20,400 req/sec on cache hits and ~3,500 req/sec on cache
-            misses. Metrics shown on the page are very different from the ones
-            in the benchmarks because of deployment resources (free version);
-            for real numbers, you can check it out locally.
-        </p>
+                    <p>Go, Redis, goroutines</p>
 
-        <hr />
+                    <p>
+                        A distributed job queue built with Go and Redis. An API accepts
+                        send_email, resize_image, and generate_pdf jobs and replies
+                        immediately; separate worker processes claim them into a
+                        processing list and simulate the work. Jobs are acknowledged
+                        when finished, and failures are retried once (two attempts
+                        total) before moving to a dead list.
+                    </p>
+                </article>
+            </section>
 
-        <h4>
-            Job queue --
-            <a href="https://github.com/aashutosh-yadav/job-queue">GitHub</a>
-        </h4>
+            <section>
+                <h2>Writings</h2>
 
-        <p>Go, Redis, goroutines</p>
+                <p>
+                    (I want to understand things clearly and explain them well.)
+                </p>
 
-        <p>
-          A distributed job queue built with Go and Redis. An API accepts
-          send_email, resize_image, and generate_pdf jobs and replies
-          immediately; separate worker processes claim them into a processing
-          list and simulate the work. Jobs are acknowledged when finished, and
-          failures are retried once (two attempts total) before moving to a
-          dead list.
-        </p>
+                <article>
+                    <h3>
+                        Distributed systems, consensus, leader election, log
+                        replication —
+                        <a href="raft-leader-election-and-log-replication.html"
+                            >Understanding Leader Election and Log Replication in
+                            Raft</a
+                        >
+                    </h3>
+                </article>
 
-        <h2>Writings</h2>
+                <h3>High-performance URL shortener — blog coming soon.</h3>
+            </section>
 
-        <h4>
-            Distributed systems, consensus, leader election, log replication —
-            <a href="raft-leader-election-and-log-replication.html"
-                >Understanding Leader Election and Log Replication in Raft</a
-            >
-        </h4>
+            <section>
+                <h2>About</h2>
 
-        <h4>High-performance URL shortener — blog coming soon.</h4>
+                <p>
+                    Just a normal guy who likes building, learning more about
+                    computers, hacking, physics, and mathematics.
+                </p>
+            </section>
 
-        <hr />
+            <section>
+                <h2>Interests</h2>
 
-        <h2>About</h2>
+                <p>Computers, Engineering</p>
+            </section>
 
-        <p>
-            I want to understand things clearly and explain them well.
-        </p>
+            <section>
+                <h2>Contact</h2>
 
-        <p>
-            Just a normal guy who likes building, learning more about computers,
-            hacking, physics, and mathematics.
-        </p>
+                <address>
+                    <p>yadavashutoshwork [at] gmail [dot] com</p>
 
-        <hr />
+                    <p>
+                        <a href="https://github.com/aashutosh-yadav">GitHub</a>
+                    </p>
+                </address>
+            </section>
+        </main>
 
-        <h2>Interests</h2>
-
-        <p>Computers, Engineering</p>
-
-        <hr />
-
-        <h2>Contact</h2>
-
-        <p>yadavashutoshwork [at] gmail [dot] com</p>
-
-        <p>
-            <a href="https://github.com/aashutosh-yadav">GitHub</a>
-        </p>
-
-        <p>© 2026 Ashutosh Yadav</p>
+        <footer>
+            <p>© 2026 Ashutosh Yadav</p>
+        </footer>
     </body>
 </html>
